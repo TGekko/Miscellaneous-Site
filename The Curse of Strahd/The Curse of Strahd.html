@@ -11,7 +11,8 @@
     element = element.cloneNode(true);
     let item = e.create('div');
     let close = e.create('button');
-    element.style = style;
+    element.style+= style;
+    element.classList.remove('float-left', 'float-right');
     if(element.hasAttribute('src')) element.addEventListener('click', () => window.open(element.getAttribute('src'), '_blank'));
     item.classList.add('display');
     item.style = dstyle;
@@ -21,7 +22,60 @@
     e('body')[0].append(item);
    }
 
+   class TGLineElement extends HTMLElement {
+    constructor() {
+     super();
+     for(let style of Object.entries({
+      display: 'block',
+      width: '100%',
+      height: '0.2em',
+      margin: '1em 0',
+      borderRadius: '0.1em',
+      backgroundColor: 'var(--dark)',
+     })) this.style[style[0]]||= style[1];
+    }
+   }
+
+   class TGNameElement extends HTMLElement {
+    constructor() {
+     super();
+     if(this.hasAttribute('name'))
+      this.name = this.getAttribute('name');
+     else {
+      for(let name of Object.entries(this.names)) {
+       if(this.innerHTML.includes(name[0])) {
+        this.name = name[0];
+        break;
+       }
+      }
+     }
+    }
+
+    connectedCallback() {
+     if(this.name in this.names)
+      this.innerHTML = `${this.names[this.name]} ${this.innerHTML}`;
+    }
+
+    names = {
+     'Cedric': `<a title='Cedric' class="Cedric em-img" href='#Cedric'></a>`,
+     'Donavich': `<img class='em-img' src="https://www.dndbeyond.com/attachments/1/723/cos03-07.png"/>`,
+     'Doru': `<img class='em-img' src="https://www.dndbeyond.com/attachments/1/724/cos03-08.png"/>`,
+     'Gregor': `<a title='Gregor' class="Gregor em-img" href='#Gregor'></a>`,
+     'Ireena': `<img class='em-img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/>`,
+     'Ismark': `<img class='em-img' src="https://www.dndbeyond.com/attachments/1/719/cos03-03.png"/>`,
+     'Kael': `<a title='Kael' class="Kael em-img" href='#Kael'></a>`,
+     'Po': `<a title='Quinn' class="Quinn em-img" href='#Quinn'></a>`,
+     'Quinn': `<a title='Quinn' class="Quinn em-img" href='#Quinn'></a>`,
+     'Rictavio': `<img class="em-img" src="https://www.dndbeyond.com/avatars/thumbnails/323/737/1000/1000/636623995708971736.png"/>`,
+     'Strahd': `<img class='em-img' src="assets/Strahd.jpg"/>`,
+     'Sylvenna': `<a title='Sylvenna' class="Sylvenna em-img" href='#Sylvenna'></a>`,
+     'Therin': `<a title='Therin' class="Therin em-img" href='#Therin'></a>`,
+    }
+   }
+
    addEventListener('DOMContentLoaded', () => {
+    customElements.define('tg-line', TGLineElement);
+    customElements.define('tg-name', TGNameElement);
     for(let img of e('img, [display]')) img.addEventListener('click', function() {
      display(this, `width: ${this.classList.contains('img') ? `100%` : `auto`}; height: 100%; max-width: 100%;`, `display: flex; justify-content: center;`);
     });
@@ -39,6 +93,10 @@
    });
   </script>
   <style>
+   :root {
+    --bg: #FED;
+    --dark: #420;
+   }
    * {
     position: relative;
     box-sizing: border-box;
@@ -51,7 +109,7 @@
     margin: 0;
     width: 100%;
     min-height: 100%;
-    background: #FED;
+    background: var(--bg);
     font-family: serif;
     overflow-x: hidden;
    }
@@ -71,6 +129,19 @@
    button {
     cursor: pointer;
    }
+   p:not([n]) {
+    text-indent: 2em;
+   }
+   p[m] {
+    margin-bottom: 0;
+    + p {
+     margin-top: 0;
+    }
+   }
+   p[r] {
+    text-align: right;
+   }
+   tg-name { text-wrap: nowrap; }
    .img, .em-img {
     display: inline-block;
     background-size: contain;
@@ -101,8 +172,9 @@
      box-shadow: -1px 2px 4px black;
     }
    }
-   .float-left { float: left; margin-right: 0.5em; }
-   .float-right { float: right; margin-left: 0.5em; }
+   .float-left, .float-right { z-index: 1; }
+   .float-left { float: left; margin-right: 0.5em; box-shadow: 0.5em 0 0 var(--bg); }
+   .float-right { float: right; margin-left: 0.5em; box-shadow: -0.5em 0 0 var(--bg); }
    .indent {
     display: inline-block;
     padding-left: 2em;
@@ -137,31 +209,26 @@
      text-align: center;
     }
    }
-   .name { text-wrap: nowrap; }
    .em-img {
     width: 1em;
     height: 1em;
    }
-   .display::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    -webkit-backdrop-filter: blur(1em);
-    backdrop-filter: blur(1em);
-    z-index: -1;
-   }
    .display {
     position: fixed;
-    inset: 2em;
+    inset: 0;
     border-radius: 0.5em;
-    padding: 0.5em;
-    background: #FED;
+    padding: 2.5em;
+    background: #FED8;
+    -webkit-backdrop-filter: blur(1em);
+    backdrop-filter: blur(1em);
     overflow: auto;
+    z-index: 1;
    }
    .display-close {
     position: absolute;
-    inset: 0.5em 0.5em 0 0;
-    background: url("https://tgekko.com/assets/TheWheel/remove.svg"), #210;
+    top: 2.5em;
+    right: 2.5em;
+    background: url("https://tgekko.com/assets/TheWheel/remove.svg"), var(--dark);
     width: max(4em, 5vh);
     height: max(4em, 5vh);
     border-radius: 50%;
@@ -181,6 +248,7 @@
     height: 0;
     opacity: 0;
     pointer-events: none;
+    overflow: hidden;
    }
   </style>
  </head>
@@ -292,107 +360,98 @@
    </div>
    <div content>
     <h2>The Beginning</h2>
-    The party received a letter from, supposedly, Kolyan Indirovich. Later they discovered that it was written by <img class='em-img' src="assets/Strahd.jpg"/> Strahd:<br>
-    <img style="width: 100%; height: 10em;" src="https://www.dndbeyond.com/attachments/1/831/cos19-10.png"/><br>
+    <p>The party received a letter from, supposedly, Kolyan Indirovich. Later they discovered that it was written by <tg-name>Strahd:</th-name></p>
+    <tg-line></tg-line>
+    <p n><img style="width: 100%; height: 10em;" src="https://www.dndbeyond.com/attachments/1/831/cos19-10.png"/></p>
     <img class='float-right' style="width: 15em;" src="https://www.dndbeyond.com/attachments/8/228/f1.jpg"/>
-    "Hail to thee of might and valor.<br>
-    <br>
-    I, a lowly servant of Barovia, send honor to thee. We plead for thy so desperately needed assistance.<br>
-    <br>
-    The love of my life, Ireena Kolyana, has been afflicted by an evil so deadly that even the good people of our village cannot protect her. She languishes from her wound, and I would have her saved from this menace.<br>
-    <br>
-    There is much wealth in this community. I offer all that might be had to thee and thy fellows if thou shalt but answer my desperate plea.<br>
-    <br>
-    Come quickly, for her time is at hand! All that I have shall be thine!<br>
-    <br>
-    Kolyan Indirovich<br>
-    Burgomaster"<br>
+    <p n>Hail to thee of might and valor.</p>
+    <p>I, a lowly servant of Barovia, send honor to thee. We plead for thy so desperately needed assistance.</p>
+    <p>The love of my life, Ireena Kolyana, has been afflicted by an evil so deadly that even the good people of our village cannot protect her. She languishes from her wound, and I would have her saved from this menace.</p>
+    <p>There is much wealth in this community. I offer all that might be had to thee and thy fellows if thou shalt but answer my desperate plea.</p>
+    <p>Come quickly, for her time is at hand! All that I have shall be thine!</p>
+    <p n m r>Kolyan Indirovich</p>
+    <p n r>Burgomaster</p>
+    <tg-line></tg-line>
    </div>
    <div content>
     <h2>Barovia</h2>
-    The party approached the gates of Barovia:<br>
-    <img src="https://www.dndbeyond.com/attachments/1/714/cos02-04.png"/><br><br>
-    <span class='hidden' id='Heading-Map-of-Barovia'></span>
-    This map was acquired later, in the Village of Barovia, noted below:<br>
-    <img src="https://media-waterdeep.cursecdn.com/attachments/2/765/cos201.jpg"/><br><br>
-    As the party traveled along the road, they found the body of a man clutching the following letter:<br><br>
+    <p>The party approached the gates of Barovia:</p>
+    <p n><img src="https://www.dndbeyond.com/attachments/1/714/cos02-04.png"/></p>
+    <p id='Heading-Map-of-Barovia'>This map was acquired later, in the Village of Barovia, noted below:</p>
+    <p n><img src="https://media-waterdeep.cursecdn.com/attachments/2/765/cos201.jpg"/></p>
+    <p>As the party traveled along the road, they found the body of a man clutching the following letter:</p>
+    <tg-line></tg-line>
     <img class='float-right' style='width: 15em;' src="https://www.dndbeyond.com/attachments/8/234/f7.jpg"/>
-    "Hail thee of might and valor:<br>
-    <br>
-    I, the Burgomaster of Barovia, send you honor—with despair.<br>
-    <br>
-    My adopted daughter, the fair Ireena Kolyana, has been these past nights bitten by a vampyr. For over four hundred years, this creature has drained the life blood of my people. Now, my dear Ireena languishes and dies from an unholy wound caused by this vile beast. He has become too powerful to conquer.<br>
-    <br>
-    So I say to you, give us up for dead and encircle this land with the symbols of good. Let holy men call upon their power that the devil may be contained within the walls of weeping Barovia. Leave our sorrows to our graves, and save the world from this evil fate of ours.<br>
-    <br>
-    There is much wealth entrapped in this community. Return for your reward after we are all departed for a better life.<br>
-    <br>
-    Kolyan Indirovich<br>
-    Burgomaster"<br>
+    <p n>Hail thee of might and valor:</p>
+    <p>I, the Burgomaster of Barovia, send you honor—with despair.</p>
+    <p>My adopted daughter, the fair Ireena Kolyana, has been these past nights bitten by a vampyr. For over four hundred years, this creature has drained the life blood of my people. Now, my dear Ireena languishes and dies from an unholy wound caused by this vile beast. He has become too powerful to conquer.</p>
+    <p>So I say to you, give us up for dead and encircle this land with the symbols of good. Let holy men call upon their power that the devil may be contained within the walls of weeping Barovia. Leave our sorrows to our graves, and save the world from this evil fate of ours.</p>
+    <p>There is much wealth entrapped in this community. Return for your reward after we are all departed for a better life.</p>
+    <p n m r>Kolyan Indirovich</p>
+    <p n r>Burgomaster</p>
+    <tg-line></tg-line>
    </div>
    <div content>
     <h2>The Village of Barovia</h2>
     <img class='float-left' style='width: 30%;' src="https://www.dndbeyond.com/attachments/2/767/cos301.jpg"/>
-    Along the road to a nearby village, the party met two people, one of which, Flippelbottom Tillywix, joined them on their journey. <span class='name'><a title='Quinn' class="Quinn em-img" href='#Quinn'></a> Po</span> -- Quinn before he regained his memories -- tried to pick the pocket of the other man. The man intercepted the attempt and laughed before walking away.<br><br>
-    The party entered the Village of Barovia, chased by a destructive fog which tears at those who enter it.<br><br>
-    The deadly fog ushered the party into a building known as the "Death House".<br><br>
+    <p>Along the road to a nearby village, the party met two people, one of which, Flippelbottom Tillywix, joined them on their journey. <tg-name>Po</tg-name> -- Quinn before he regained his memories -- tried to pick the pocket of the other man. The man intercepted the attempt and laughed before walking away.</p>
+    <p>The party entered the Village of Barovia, chased by a destructive fog which tears at those who enter it.</p>
+    <p>The deadly fog ushered the party into a building known as the "Death House".</p>
     <img class='float-right' style='width: 30%;' src="https://www.dndbeyond.com/attachments/3/238/deathhouseplayer.jpg"/>
-    The fog closed in around the building and filled it as the party explored the house -- a house haunted by the ghosts of those who died or were slaughtered there.<br><br>
-    As the party climbed the house, they came across a letter from <span class='name'><img class='em-img' src="assets/Strahd.jpg"/> Strahd</span> to someone long dead:<br><br>
-    "My most pathetic servant,<br>
-    <br>
-    I am not a messiah sent to you by the Dark Powers of this land. I have not come to lead you on a path to immortality. However many souls you have bled on your hidden altar, however many visitors you have tortured in your dungeon, know that you are not the ones who brought me to this beautiful land. You are but worms writhing in my earth.<br>
-    <br>
-    You say that you are cursed, your fortunes spent. You abandoned love for madness, took solace in the bosom of another woman, and sired a stillborn son. Cursed by darkness? Of that I have no doubt. Save you from your wretchedness? I think not. I much prefer you as you are.<br>
-    <br>
-    Your dread lord and master,<br>
-    <br>
-    Strahd von Zarovich"<br><br>
-    The party also found the ghosts of two children. The ghost of a young boy posessed <span class='name'><a title='Therin' class="Therin em-img" href='#Therin'></a> Therin</span> temporarily, altering his personality.<br><br>
-    The party discovered a hidden staircase which led to an underground dungeon. <span class='name'><a title='Kael' class="Kael em-img" href='#Kael'></a> Kael</span> managed to trigger every trap and ambush within, while <span class='name'><a title='Therin' class="Therin em-img" href='#Therin'></a> Therin</span> enjoyed finding some gold and minor treasures.<br><br>
-    Descending farther, they found a room leading to a flooded altar. The room contained some alcoves filled with cult-ish objects, and the altar rested behind an iron gate.<br><br>
-    The party found a way to the altar and, as they entered, they were met with the ghosts of cultists. These cultists demanded a sacrifice. Initially, the party refused to kill anybody. The cultists, displeased, summoned a Shambling Mound which pursued the party as they follow <span class='name'><a title='Gregor' class="Gregor em-img" href='#Gregor'></a> Gregor</span> throughout the house in a panic. They would have run, but <span class='name'><a title='Gregor' class="Gregor em-img" href='#Gregor'></a> Gregor</span> blocked everybody's path the whole way through.<br><br>
-    Believing the house to still be filled with fog, the party felt trapped. Eventually, while evading the Shambling Mound, <span class='name'><a title='Sylvenna' class="Sylvenna em-img" href='#Sylvenna'></a> Sylvenna</span> whisked Flippelbottom back down to the alter, called him a hero, then mercilessly runs him through. This appeased the cultists. <span class='name'><img class='em-img' src="assets/Strahd.jpg"/> Strahd</span>, amused, seemed to appear in the room for a moment, laughing. <span class='name'><a title='Therin' class="Therin em-img" href='#Therin'></a> Therin</span> took Flippelbottom's clothing -- somehow wearing it well even though Flippelbottom was half of <span class='name'><a title='Therin' class="Therin em-img" href='#Therin'></a> Therin's</span> height.<br><br>
-    With the cultists' ghosts satisfied with Flippelbottom dead and the Shambling Mound gone, the party took Flippelbottom's body with them as they left the house. Finding a nearby tavern to rest in, they unceremoniously plopped Flippelbottom's body in a nearby cart -- likely owned by people called the Vistani. In the tavern, <span class='name'><a title='Sylvenna' class="Sylvenna em-img" href='#Sylvenna'></a> Sylvenna</span> spoke with some Vistani. They gave her a map of Barovia and told her to visit a woman named Madam Eva at the Tser Pools Encampment. They slept haphazardly in the tavern.<br><br>
-    In the morning, the cart in which they stowed Flippelbottom was gone. They ignored this and moved on to the house of the Burgomaster, who supposedly sent them the letter that brought them there, at the request of his son, <span class='name'><img class='em-img' src="https://www.dndbeyond.com/attachments/1/719/cos03-03.png"/> Ismark,</span> who was in the tavern. The party showed <span class='name'><img class='em-img' src="https://www.dndbeyond.com/attachments/1/719/cos03-03.png"/> Ismark</span> the letter they received from his father. <span class='name'><img class='em-img' src="https://www.dndbeyond.com/attachments/1/719/cos03-03.png"/> Ismark</span> confirms that the letter could not have been written by his father, who was recently deceased, as the handwriting and signature did not match that of his father.<br><br>
+    <p>The fog closed in around the building and filled it as the party explored the house -- a house haunted by the ghosts of those who died or were slaughtered there.</p>
+    <p>As the party climbed the house, they came across a letter from <tg-name>Strahd</tg-name> to someone long dead:</p>
+    <tg-line></tg-line>
+    <p n>My most pathetic servant,</p>
+    <p>I am not a messiah sent to you by the Dark Powers of this land. I have not come to lead you on a path to immortality. However many souls you have bled on your hidden altar, however many visitors you have tortured in your dungeon, know that you are not the ones who brought me to this beautiful land. You are but worms writhing in my earth.</p>
+    <p>You say that you are cursed, your fortunes spent. You abandoned love for madness, took solace in the bosom of another woman, and sired a stillborn son. Cursed by darkness? Of that I have no doubt. Save you from your wretchedness? I think not. I much prefer you as you are.</p>
+    <p n m r>Your dread lord and master,</p>
+    <p n r>Strahd von Zarovich</p>
+    <tg-line></tg-line>
+    <p>The party also found the ghosts of two children. The ghost of a young boy posessed <tg-name>Therin</tg-name> temporarily, altering his personality.</p>
+    <p>The party discovered a hidden staircase which led to an underground dungeon. <tg-name>Kael</tg-name> managed to trigger every trap and ambush within, while <tg-name>Therin</tg-name> enjoyed finding some gold and minor treasures.</p>
+    <p>Descending farther, they found a room leading to a flooded altar. The room contained some alcoves filled with cult-ish objects, and the altar rested behind an iron gate.</p>
+    <p>The party found a way to the altar and, as they entered, they were met with the ghosts of cultists. These cultists demanded a sacrifice. Initially, the party refused to kill anybody. The cultists, displeased, summoned a Shambling Mound which pursued the party as they follow <tg-name>Gregor</tg-name> throughout the house in a panic. They would have run, but <tg-name>Gregor</tg-name> blocked everybody's path the whole way through.<br><br>
+    Believing the house to still be filled with fog, the party felt trapped. Eventually, while evading the Shambling Mound, <tg-name>Sylvenna</tg-name> whisked Flippelbottom back down to the alter, called him a hero, then mercilessly runs him through. This appeased the cultists. <tg-name>Strahd</tg-name>, amused, seemed to appear in the room for a moment, laughing. <tg-name>Therin</tg-name> took Flippelbottom's clothing -- somehow wearing it well even though Flippelbottom was half of <tg-name>Therin's</tg-name> height.</p>
+    <p>With the cultists' ghosts satisfied with Flippelbottom dead and the Shambling Mound gone, the party took Flippelbottom's body with them as they left the house. Finding a nearby tavern to rest in, they unceremoniously plopped Flippelbottom's body in a nearby cart -- likely owned by people called the Vistani. In the tavern, <tg-name>Sylvenna</tg-name> spoke with some Vistani. They gave her a map of Barovia and told her to visit a woman named Madam Eva at the Tser Pools Encampment. They slept haphazardly in the tavern.</p>
+    <p>In the morning, the cart in which they stowed Flippelbottom was gone. They ignored this and moved on to the house of the Burgomaster, who supposedly sent them the letter that brought them there, at the request of his son, <tg-name>Ismark,</tg-name> who was in the tavern. The party showed <tg-name>Ismark</tg-name> the letter they received from his father. <tg-name>Ismark</tg-name> confirms that the letter could not have been written by his father, who was recently deceased, as the handwriting and signature did not match that of his father.</p>
     <img class='float-right' style="width: 10em;" src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/>
-    There, they found <span class='name'><img class='em-img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/> Ireena Kolyana,</span> sister to Ismark. <span class='name'><img class='em-img' src="assets/Strahd.jpg"/> Strahd</span> was interested in <span class='name'><img class='em-img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/> Ireena,</span> so they requested the help of the party in escorting her to Vallaki. During this request, <span class='name'><a title='Cedric' class="Cedric em-img" href='#Cedric'></a> Cedric</span> expressed that they saw a kid be kidnapped and didn't do anything about it. Thankfully, he expressed this in such a strange way that <span class='name'><img class='em-img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/> Ireena</span> and <span class='name'><img class='em-img' src="https://www.dndbeyond.com/attachments/1/719/cos03-03.png"/> Ismark</span> dismissed the comment.<br><br>
-    <span class='name'><img class='em-img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/> Ireena</span> joins the party and asks for help transporting a coffin, containing the recently deceased Burgomaster, to the cemetery. During this interaction, the party realized that they left <span class='name'><a title='Kael' class="Kael em-img" href='#Kael'></a> Kael</span> sleeping under a table in the tavern for the whole day.<br><br>
+    <p>There, they found <tg-name>Ireena Kolyana,</tg-name> sister to Ismark. <tg-name>Strahd</tg-name> was interested in <tg-name>Ireena,</tg-name> so they requested the help of the party in escorting her to Vallaki. During this request, <tg-name>Cedric</tg-name> expressed that they saw a kid be kidnapped and didn't do anything about it. Thankfully, he expressed this in such a strange way that <tg-name>Ireena</tg-name> and <tg-name>Ismark</tg-name> dismissed the comment.</p>
+    <p><tg-name>Ireena</tg-name> joins the party and asks for help transporting a coffin, containing the recently deceased Burgomaster, to the cemetery. During this interaction, the party realized that they left <tg-name>Kael</tg-name> sleeping under a table in the tavern for the whole day.</p>
     <img class='float-left' style='width: 17em' src="https://www.dndbeyond.com/attachments/2/768/cos302.jpg"/>
-    Upon visiting the church, the party heckled <span class='name'><img class='em-img' src="https://www.dndbeyond.com/attachments/1/723/cos03-07.png"/> a terrified priest,</span> broke into the basement, and beheaded <span class='name'><img class='em-img' src="https://www.dndbeyond.com/attachments/1/724/cos03-08.png"/> a vampire spawn.</span> The vampire spawn was the son of the <span class='name'><img class='em-img' src="https://www.dndbeyond.com/attachments/1/723/cos03-07.png"/> priest,</span> whom he kept down there since a failed raid of Castle Ravenloft.<br><br>
-    They buried the Burgomaster behind the church, and they stayed there for the night. The church was accosted by Strahd Zombies in the dark, but the party left safely the next day.<br>
+    <p>Upon visiting the church, the party heckled <tg-name name='Donavich'>a terrified priest,</tg-name> broke into the basement, and beheaded <tg-name name='Doru'>a vampire spawn.</tg-name> The vampire spawn was the son of the <tg-name name='Donavich'>priest,</tg-name> whom he kept down there since a failed raid of Castle Ravenloft.</p>
+    <p>They buried the Burgomaster behind the church, and they stayed there for the night. The church was accosted by Strahd Zombies in the dark, but the party left safely the next day.</p>
    </div>
    <div content>
     <h2>Tser Pool Encampment</h2>
-    Here, the party approached a camp of Vistani. In a large tent, they found Madam Eva, who read their fortunes with a deck of cards:<br><br>
-    To <span class='name'><a title='Sylvenna' class="Sylvenna em-img" href='#Sylvenna'></a> Sylvenna</span>, she said, "This is a card of power and strength. It tells of a weapon of vengeance: a sword of sunlight. I see a lonely mill on a precipice. The treasure lies within."<br>
+    <p>Here, the party approached a camp of Vistani. In a large tent, they found Madam Eva, who read their fortunes with a deck of cards:</p>
+    <p m>To <tg-name>Sylvenna</tg-name>, she said, "This is a card of power and strength. It tells of a weapon of vengeance: a sword of sunlight. I see a lonely mill on a precipice. The treasure lies within."</p>
     <span class='indent'>Status: </span><span class='green'>Success - The Sunsword was acquired.</span><br>
-    To <span class='name'><a title='Therin' class='Therin em-img' href='#Therin'></a> Therin</span>, she said, "This card tells of a powerful force for good and protection, a holy symbol of great hope. There is a town where all is not well. There you will find a house of corruption, and within, a dark room full of still ghosts."<br>
+    To <tg-name>Therin</tg-name>, she said, "This card tells of a powerful force for good and protection, a holy symbol of great hope. There is a town where all is not well. There you will find a house of corruption, and within, a dark room full of still ghosts."<br>
     <span class='indent'>Status: </span><span class='green'>Success - The Holy Symbol of Ravenkind was acquired.</span><br>
-    To <span class='name'><a title='Gregor' class='Gregor em-img' href='#Gregor'></a> Gregor</span>, she said, "This card sheds light on one who will help you greatly in the battle against darkness. Search for a troubled young man surrounded by wealth and madness. His home is his prison."<br>
+    To <tg-name>Gregor</tg-name>, she said, "This card sheds light on one who will help you greatly in the battle against darkness. Search for a troubled young man surrounded by wealth and madness. His home is his prison."<br>
     <span class='indent'>Status: </span><span class='red'>Failure - Victor Vallakovich died needlessly in a den of vampire spawn.</span><br>
-    To <span class='name'><a title='Quinn' class='Quinn em-img' href='#Quinn'></a> Po</span>, she said, "This card tells of history. Knowledge of the ancient will help you better understand your enemy. Look to the west. Find a pool blessed by the light of the white sun."<br>
+    To <tg-name>Po</tg-name>, she said, "This card tells of history. Knowledge of the ancient will help you better understand your enemy. Look to the west. Find a pool blessed by the light of the white sun."<br>
     <span class='indent'>Status: </span><span class='yellow'>In Progress - Go to Kresk.</span><br>
-    To <span class='name'><a title='Kael' class='Kael em-img' href='#Kael'></a> Kael</span>, she said, "Your enemy is a creature of darkness, whose powers are beyond mortality. This card will lead you to him! He haunts the tomb of the man he envied above all."<br>
-    <span class='indent'>Status: </span><span class='yellow'>In Progress - <span class='name'><img class='em-img' src="assets/Strahd.jpg"/> Strahd's</span> exact location?</span><br><br>
-    After this, the Vistani offered what materials they had in their carts to the party. Most of the carts had nothing, but <span class='name'><a title='Quinn' class="Quinn em-img" href='#Quinn'></a> Po</span> found plenty of gold in the cart he checked.<br>
+    To <tg-name>Kael</tg-name>, she said, "Your enemy is a creature of darkness, whose powers are beyond mortality. This card will lead you to him! He haunts the tomb of the man he envied above all."<br>
+    <span class='indent'>Status: </span><span class='yellow'>In Progress - <tg-name>Strahd's</tg-name> exact location?</span><br><br>
+    After this, the Vistani offered what materials they had in their carts to the party. Most of the carts had nothing, but <tg-name>Po</tg-name> found plenty of gold in the cart he checked.<br>
     <h2>The Old Bonegrinder & The Megaliths</h2>
     <img class='float-right' style="width: 10em;" src="https://www.dndbeyond.com/attachments/2/775/cos601.jpg"/>
     The party, on their way to Vallaki, found an old windmill. Upon entering, they found a seemingly nice old lady baking meat pies. They also breifly spied her two unsightly daughters. Discovering that the meat pies were actually Dream Pastries which induce a trance, and finding evidence of disturbing activity within the windmill, the party spoke carefully with the old woman.<br><br>
     <img class='float-right' style="width: 6em;" src="https://www.dndbeyond.com/avatars/thumbnails/5738/105/1000/1000/636898360872962338.jpeg"/>
-    They discovered that this witch-like woman was in posession of the fabled Sunsword -- bane of <span class='name'><img class='em-img' src="assets/Strahd.jpg"/> Strahd.</span> <span class='name'><a title='Kael' class="Kael em-img" href='#Kael'></a> Kael</span> remembered the importance of this weapon, remembering one of the fortunes from Madam Eva. Somehow, through some miracle, the party charmed the woman and simply asked for the sword. She handed it to them, realizing what happened shortly after. This enraged her, and she transformed -- revealing that she was actually a Night Hag.<br><br>
+    They discovered that this witch-like woman was in posession of the fabled Sunsword -- bane of <tg-name>Strahd.</tg-name> <tg-name>Kael</tg-name> remembered the importance of this weapon, remembering one of the fortunes from Madam Eva. Somehow, through some miracle, the party charmed the woman and simply asked for the sword. She handed it to them, realizing what happened shortly after. This enraged her, and she transformed -- revealing that she was actually a Night Hag.<br><br>
     The party immediately fled, afraid of the Night Hags within the Old Bonegrinder. Impossibly, they escaped with the Sunsword entirely unharmed.<br><br>
     As they fled, they came to a set of four megaliths. Different members of the party approached each megalith, receiving visions of faraway cities depicting the four seasons:<br><br>
     The Monument of Spring, representing the mountain city of Druvenlahr, is a tall, moss-covered pillar of veined granite. At its center: a harp carved atop a flowering mountain. The vines growing on the stone blossom unnaturally in its presence. Carved in Druidic & Old Dwarvish is the inscription: “She sang to the earth, and it bloomed. But nothing green grows forever.” The party member experiences the following vision: The stone hums softly beneath your feet, like the echo of a distant song. You see glimpses of a mountaintop city, dwarves and druids coaxing life from stone -- orchards carved into cliff sides, mountain goats frolicking where snow once clung. Laughter. Celebration. Then… cracks. The land splits. Screams echo through the rock. Spring fed them. But spring turned to greed. And the mountain claimed what it had given.<br><br>
     The monument of Summer, representing the gleaming, innovative city of Auron’Thal, is a scorched obsidian slab. The sunburst-and-anvil motif is deeply carved, but heat cracks run across the surface. The stone is warm to the touch, even in the cold air. Inscribed in the stone is can be seen, “He forged the sun, but even suns burn out.” The party member experiences the following vision: You see forges blazing with light, brighter than fire should burn -- radiant machines, flying constructs, beacons of holy flame. A city gleaming with pride, with purpose. But pride draws envy. And envy… invites darkness. One day, the fires stutter. Then one by one, they die. What was once brilliance becomes ruin -- blackened, forgotten, cold.<br><br>
     The monument of Autumn, representing the tranquil, ancient elven city of Velkynmere, is a smooth pillar of red-gold marble, covered in carved leaves -- many of which are cracked or faded. In the center is carved a single eye beneath drifting leaves. An inscription on the stone says, “She saw too far, and the leaves never stopped falling.” The party member experiences the following vision: The wind turns colder as you draw near. In your mind’s eye, you see an ancient elven city beneath the boughs -- tranquil, eternal, thoughtful. Seers and prophets gather beneath the trees, visions flickering in their minds. One sees the end. She cries out -- too late. Autumn comes. The leaves fall. No one hears her warning.<br><br>
-    The monument of Winter, representing the lost, now silent city of Sai'el, is the coldest of the four. It is covered in pale frost that doesn’t melt, even under torchlight. A crescent moon is depicted in chains and floating above snowdrifts or wispy fog. The inscription in the stone reads, “They dreamed of freedom in frozen sleep. But the dream turned on them.” <span class='name'><a title='Quinn' class="Quinn em-img" href='#Quinn'></a> Po</span> experiences the following vision: Cold grips your bones. You see towers of shimmering ice, rituals cast in silence, dreamers sleeping in runes of silver. Their dreams were meant to preserve them -- to escape what the mists could not reach. But something… else reached them first. One night, they all awoke. Screaming. And the screams did not stop. <span class='name'><a title='Quinn' class="Quinn em-img" href='#Quinn'></a> Po</span> feels something watching him. A memory. The name of his childhood friend, Lyn, nearly spoken in his mind.<br><br>
+    The monument of Winter, representing the lost, now silent city of Sai'el, is the coldest of the four. It is covered in pale frost that doesn’t melt, even under torchlight. A crescent moon is depicted in chains and floating above snowdrifts or wispy fog. The inscription in the stone reads, “They dreamed of freedom in frozen sleep. But the dream turned on them.” <tg-name>Po</tg-name> experiences the following vision: Cold grips your bones. You see towers of shimmering ice, rituals cast in silence, dreamers sleeping in runes of silver. Their dreams were meant to preserve them -- to escape what the mists could not reach. But something… else reached them first. One night, they all awoke. Screaming. And the screams did not stop. <tg-name>Po</tg-name> feels something watching him. A memory. The name of his childhood friend, Lyn, nearly spoken in his mind.<br><br>
     "The wind shifts. The stones fall silent. Four cities. Four falls. Four lessons carved into a land that forgets nothing. And yet you stand -- new blood in cursed soil. Will your names be carved in stone one day? Or merely whispered… like the rest?"<br><br>
    </div>
    <div content>
     <h2>Vallaki</h2>
     <img class='float-left' style="width: 15em" src="https://www.dndbeyond.com/attachments/6/303/cos05-02-player.jpg"/>
-    The party approached the City of Vallaki with <span class='name'><img class='em-img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/> Ireena.</span> They made it through the tall wooden gates, and they visited The Blue Water Inn. They passed several ravens on the way in. <span class='name'><a title='Quinn' class="Quinn em-img" href='#Quinn'></a> Po</span> tossed a coin to one of them, and they happily took it. <span class='name'><a title='Therin' class="Therin em-img" href='#Therin'></a> Therin</span> attempted interacting with one of the ravens, and they suddenly turned into a human and walked away. This made Therin intensely suspicious of all ravens he saw. During this visit to the inn, they briefly met a man named <span class='name'><img class="em-img" src="https://www.dndbeyond.com/avatars/thumbnails/323/737/1000/1000/636623995708971736.png"/> Rictavio,</span> the leader of a carnival. He suggested that they meet him at his wagon just down the road.
+    The party approached the City of Vallaki with <tg-name>Ireena.</tg-name> They made it through the tall wooden gates, and they visited The Blue Water Inn. They passed several ravens on the way in. <tg-name>Po</tg-name> tossed a coin to one of them, and they happily took it. <tg-name>Therin</tg-name> attempted interacting with one of the ravens, and they suddenly turned into a human and walked away. This made Therin intensely suspicious of all ravens he saw. During this visit to the inn, they briefly met a man named <tg-name>Rictavio,</tg-name> the leader of a carnival. He suggested that they meet him at his wagon just down the road.
    </div>
    <div content>
     <h2>Castle Ravenloft</h2>
