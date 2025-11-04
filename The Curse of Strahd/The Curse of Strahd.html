@@ -23,7 +23,7 @@
 
    addEventListener('DOMContentLoaded', () => {
     for(let img of e('img, [display]')) img.addEventListener('click', function() {
-     display(this, `width: ${this.classList.contains('img') ? `100%` : `auto`}; height: 100%;`, `display: flex; justify-content: center;`);
+     display(this, `width: ${this.classList.contains('img') ? `100%` : `auto`}; height: 100%; max-width: 100%;`, `display: flex; justify-content: center;`);
     });
     for(let h of e('.data > h2')) {
      let a = e.create('a');
@@ -86,8 +86,8 @@
    .img:has(+ .character) {
     float: left;
     margin-right: 0.5em;
-    width: 2em;
-    height: 2em;
+    width: 3em;
+    height: 3em;
     cursor: pointer;
    }
    .float-left { float: left; margin-right: 0.5em; }
@@ -119,7 +119,7 @@
    .data {
     width: min(calc(100% - 7em), 40em);
     padding: 0.5em;
-    > h1, h2 {
+    > h1, h2, h3, h4 {
      text-align: center;
     }
    }
@@ -180,35 +180,42 @@
    <h1>The Curse of Strahd</h1>
    <img src="https://www.dndbeyond.com/attachments/8/220/cos-cover-4k.jpg"/>
    <h2><a src="https://www.dndbeyond.com/campaigns/6421835">Party Members</a></h2>
+   <h4>Active Party Members</h4>
    <span class='Cedric img' display></span>
    <a class='character' id='Cedric' href="https://www.dndbeyond.com/characters/141801185" target="_blank">
     Cedric Wisim Cruldor, Smoker of blunts, Hater of modern medicine</a><br>
+   <span class='indent'>Human | Cleric / Life Domain</span><br>
    <span class='indent'>Status - <span class='green'>Alive</span>, <span class='red'>Vampire Spawn (Strahd)</span>, <span class='yellow'>Old</span>, <span class='yellow'>Senile</span></span><br>
    <span class='Kael img' display></span>
    <a class='character' id='Kael' href="https://www.dndbeyond.com/characters/142071827" target="_blank">
     Kael</a><br>
-   <span class='indent'>Status - <span class='green'>Alive</span></span><br>
+   <span class='indent'>Human | Warlock / The Fiend / Fighter / Eldritch Knight</span><br>
+   <span class='indent'>Status - <span class='green'>Alive</span>, <span class='blue'>Likes to cleave</span></span><br>
    <span class='Quinn img' display></span>
    <a class='character' id='Quinn' href="https://www.dndbeyond.com/characters/141913115" target="_blank">
     Quinn Porter</a><br>
+   <span class='indent'>Human | Rogue / Thief</span><br>
    <span class='indent'>Status - <span class='green'>Alive</span>, <span class='purple'>Memory restored</span>, <span class='blue'>Previously known as "Po"</span></span><br>
    <span class='Gregor img' display></span>
    <a class='character' id='Gregor' href="https://www.dndbeyond.com/characters/141535834" target="_blank">
     Sir Gregor MacDougall</a><br>
+   <span class='indent'>Human | Bard / College of Lore</span><br>
    <span class='indent'>Status - <span class='green'>Alive</span>, <span class='yellow'>Frequently blocks doorways</span></span><br>
    <span class='Sylvenna img' display></span>
    <a class='character' id='Sylvenna' href="https://www.dndbeyond.com/characters/142015170" target="_blank">
     Sylvenna Leafwarden</a><br>
-   <span class='indent'>Status - <span class='green'>Alive</span></span><br>
+   <span class='indent'>Elf | Paladin / Oath of Glory</span><br>
+   <span class='indent'>Status - <span class='green'>Alive</span>, <span class='blue'>Likes small animals and emotive robots</span></span><br>
    <span class='Therin img' display></span>
    <a class='character' id='Therin' href="https://www.dndbeyond.com/characters/142063335" target="_blank">
     Therin Thornvale, Guardian and Lover of Fluphs</a><br>
+   <span class='indent'>Elf | Ranger / Hunter</span><br>
    <span class='indent'>Status - <span class='green'>Alive</span>, <span class='orange'>Burned</span>, <span class='yellow'>Has died more than once</span></span><br>
-   <br>
-   
-   <span class='Therin img' display></span>
+   <h4>Inactive Party Members</h4>
+   <span class='img' display></span>
    <a class='character' id='Therin' href="https://www.dndbeyond.com/characters/142063335" target="_blank">
     Flippelbottom Tillywix</a><br>
+   <span class='indent'>Researcher (need more details)</span><br>
    <span class='indent'>Status - <span class='red'>Deceased</span>, <span class='orange'>Betrayed</span>, <span class='yellow'>Defeated after reanimated to be vengeful</span></span><br>
    <h2>The Beginning</h2>
    The party receives a letter from, supposedly, Kolyan Indirovich. Later they discover that it was written by Strahd:<br>
@@ -294,7 +301,7 @@
    <img class='float-right' style="width: 10em;" src="https://www.dndbeyond.com/attachments/2/775/cos601.jpg"/>
    The party, on their way to Vallaki, find an old windmill. Upon entering, they find a seemingly nice old lady baking meat pies. They also breifly spy her two unsightly daughters. Discovering that the meat pies are actually Dream Pastries which induce a trance, and finding evidence of disturbing activity within the windmill, the party speaks carefully with the old woman.<br><br>
    <img class='float-right' style="width: 6em;" src="https://www.dndbeyond.com/avatars/thumbnails/5738/105/1000/1000/636898360872962338.jpeg"/>
-   They discover that this witch-like woman is in posession of the fabled Sunsword -- bane of Strahd. <a title='Kael' class="Kael em-img" href='#Kael'></a> Kael remembers the importance of this weapon, remembering one of the fortunes from Madam Eva. Somehow, through some miracle, the party charms the woman and simply asks for the sword. She hands it to them, realizing what happened shortly after. This enrages her, and she reveals that she is actually a Night Hag.<br><br>
+   They discover that this witch-like woman is in posession of the fabled Sunsword -- bane of Strahd. <a title='Kael' class="Kael em-img" href='#Kael'></a> Kael remembers the importance of this weapon, remembering one of the fortunes from Madam Eva. Somehow, through some miracle, the party charms the woman and simply asks for the sword. She hands it to them, realizing what happened shortly after. This enrages her, and she transforms -- revealing that she is actually a Night Hag.<br><br>
    The party immediately flees, afraid of the Night Hags within the Old Bonegrinder. Impossibly, they escape with the Sunsword entirely unharmed.<br><br>
    As they flee, they come to a set of four megaliths. Different members of the party approach each megalith, receiving visions of faraway cities depicting the four seasons:<br><br>
    The Monument of Spring, representing the mountain city of Druvenlahr, is a tall, moss-covered pillar of veined granite. At its center: a harp carved atop a flowering mountain. The vines growing on the stone blossom unnaturally in its presence. Carved in Druidic & Old Dwarvish is the inscription: “She sang to the earth, and it bloomed. But nothing green grows forever.” The party member experiences the following vision: The stone hums softly beneath your feet, like the echo of a distant song. You see glimpses of a mountaintop city, dwarves and druids coaxing life from stone -- orchards carved into cliff sides, mountain goats frolicking where snow once clung. Laughter. Celebration. Then… cracks. The land splits. Screams echo through the rock. Spring fed them. But spring turned to greed. And the mountain claimed what it had given.<br><br>
@@ -304,7 +311,7 @@
    "The wind shifts. The stones fall silent. Four cities. Four falls. Four lessons carved into a land that forgets nothing. And yet you stand -- new blood in cursed soil. Will your names be carved in stone one day? Or merely whispered… like the rest?"<br><br>
    <h2>Vallaki</h2>
    <img class='float-left' style="width: 15em" src="https://www.dndbeyond.com/attachments/6/303/cos05-02-player.jpg"/>
-   
+   The party approaches the City of Vallaki with <img class='em-img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/> Ireena. They make it through the tall wooden gates, and they visit The Blue Water Inn.
   </div>
   <div></div>
  </body>
