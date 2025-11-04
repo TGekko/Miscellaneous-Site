@@ -75,7 +75,7 @@
    }
    :not(.display) > :is(.Cedric, .Kael, .Quinn, .Gregor, .Sylvenna, .Therin) {
     border-radius: 12.5%;
-    box-shadow: -1px 2px 1px black;
+    box-shadow: -1px 2px 4px black;
    }
    .Cedric { background-image: url("assets/Cedric.jpg"); }
    .Kael { background-image: url("assets/Kael.jpg"); }
@@ -83,12 +83,14 @@
    .Gregor { background-image: url("assets/Gregor.jpg"); }
    .Sylvenna { background-image: url("assets/Sylvenna.jpg"); }
    .Therin { background-image: url("assets/Therin.jpg"); }
-   .img:has(+ .character) {
+   :is(img, .img):has(+ .character) {
     float: left;
     margin-right: 0.5em;
     width: 3em;
     height: 3em;
     cursor: pointer;
+    border-radius: 12.5%;
+    box-shadow: -1px 2px 4px black;
    }
    .float-left { float: left; margin-right: 0.5em; }
    .float-right { float: right; margin-left: 0.5em; }
@@ -107,7 +109,7 @@
    .contents {
     position: sticky;
     top: 0em;
-    width: max(min(calc(100% - 40em), 15em), 7em);
+    width: max(min(calc(100% - 40em), 15em), 10em);
     height: 100vh;
     padding: 0.5em;
     overflow: auto;
@@ -172,8 +174,9 @@
  <body>
   <div class='contents'>
    <div class='hf'>Points of Interest</div>
-   <a href="#Heading-Map">&bullet; Map</a><br>
-   <a href="#Heading-Main-Quest">&bullet; Main Quest</a><br>
+   <a href="#Heading-Party-Members">&bullet; Party Members</a><br>
+   <a href="#Heading-Map-of-Barovia">&bullet; Map of Barovia</a><br>
+   <a href="#Heading-Tser-Pool-Encampment">&bullet; Main Quest</a><br>
    <div class='hf'>Table of Contents</div>
   </div>
   <div class='data'>
@@ -213,10 +216,15 @@
    <span class='indent'>Status - <span class='green'>Alive</span>, <span class='orange'>Burned</span>, <span class='yellow'>Has died more than once</span></span><br>
    <h4>Inactive Party Members</h4>
    <span class='img' display></span>
-   <a class='character' id='Therin' href="https://www.dndbeyond.com/characters/142063335" target="_blank">
+   <a class='character' id='Flippelbottom'>
     Flippelbottom Tillywix</a><br>
    <span class='indent'>Researcher (need more details)</span><br>
-   <span class='indent'>Status - <span class='red'>Deceased</span>, <span class='orange'>Betrayed</span>, <span class='yellow'>Defeated after reanimated to be vengeful</span></span><br>
+   <span class='indent'>Status - <span class='red'>Deceased</span>, <span class='orange'>Betrayed</span>, <span class='yellow'>Defeated after being reanimated to be vengeful</span></span><br>
+   <img class='img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/>
+   <a class='character' id='Ireena'>
+    Ireena Kolyana</a><br>
+   <span class='indent'>Researcher (need more details)</span><br>
+   <span class='indent'>Status - <span class='blue'>Left the party</span>, <span class='orange'>Thinks the party incompetent</span>, <span class='blue'>Became leader of Vallaki</span></span><br>
    <h2>The Beginning</h2>
    The party receives a letter from, supposedly, Kolyan Indirovich. Later they discover that it was written by Strahd:<br>
    <img style="width: 100%; height: 10em;" src="https://www.dndbeyond.com/attachments/1/831/cos19-10.png"/><br>
@@ -236,7 +244,7 @@
    <h2>Barovia</h2>
    The party approaches the gates of Barovia:<br>
    <img src="https://www.dndbeyond.com/attachments/1/714/cos02-04.png"/><br><br>
-   <span class='hidden' id='Heading-Map'></span>
+   <span class='hidden' id='Heading-Map-of-Barovia'></span>
    This map is acquired in the Village of Barovia, noted below:<br>
    <img src="https://media-waterdeep.cursecdn.com/attachments/2/765/cos201.jpg"/><br><br>
    As the party travels along the road, they find the body of a man clutching the following letter:<br><br>
@@ -283,7 +291,6 @@
    <img class='float-left' style='width: 17em' src="https://www.dndbeyond.com/attachments/2/768/cos302.jpg"/>
    Upon visiting the church, the party heckles <img class='em-img' src="https://www.dndbeyond.com/attachments/1/723/cos03-07.png"/> a terrified priest, breaks into the basement, and beheads <img class='em-img' src="https://www.dndbeyond.com/attachments/1/724/cos03-08.png"/> a vampire spawn. The vampire spawn was the son of the <img class='em-img' src="https://www.dndbeyond.com/attachments/1/723/cos03-07.png"/> priest, whom he kept down there since a failed raid of Castle Ravenloft.<br><br>
    They bury the Burgomaster behind the church, and they stay there for the night. The church is accosted by Strahd Zombies in the dark, but the party leaves safely the next day.<br>
-   <span class='hidden' id='Heading-Main-Quest'></span>
    <h2>Tser Pool Encampment</h2>
    Here, the party approaches a camp of Vistani. In a large tent, they find Madam Eva, who reads their fortunes with a deck of cards:<br><br>
    To <a title='Sylvenna' class="Sylvenna em-img" href='#Sylvenna'></a> Sylvenna, she says, "This is a card of power and strength. It tells of a weapon of vengeance: a sword of sunlight. I see a lonely mill on a precipice. The treasure lies within."<br>
