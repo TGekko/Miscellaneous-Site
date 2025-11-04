@@ -83,7 +83,7 @@
    .Gregor { background-image: url("assets/Gregor.jpg"); }
    .Sylvenna { background-image: url("assets/Sylvenna.jpg"); }
    .Therin { background-image: url("assets/Therin.jpg"); }
-   :is(img, .img):has(+ .character) {
+   .character :is(img, .img) {
     float: left;
     margin-right: 0.5em;
     width: 3.1em;
@@ -183,63 +183,79 @@
    <img src="https://www.dndbeyond.com/attachments/8/220/cos-cover-4k.jpg"/>
    <h2><a src="https://www.dndbeyond.com/campaigns/6421835">Party Members</a></h2>
    <h4>Active Party Members</h4>
-   <span class='Cedric img' display></span>
-   <a class='character' id='Cedric' href="https://www.dndbeyond.com/characters/141801185" target="_blank">
-    Cedric Wisim Cruldor, Smoker of blunts, Hater of modern medicine</a><br>
-   <span class='indent'>
-    Human | Cleric / Life Domain<br>
-    Status - <span class='green'>Alive</span>, <span class='red'>Vampire Spawn (Strahd)</span>, <span class='yellow'>Old</span>, <span class='yellow'>Senile</span>
-   </span><br>
-   <span class='Kael img' display></span>
-   <a class='character' id='Kael' href="https://www.dndbeyond.com/characters/142071827" target="_blank">
-    Kael</a><br>
-   <span class='indent'>
-    Human | Warlock / The Fiend / Fighter / Eldritch Knight<br>
-    Status - <span class='green'>Alive</span>, <span class='blue'>Likes to cleave</span>
-   </span><br>
-   <span class='Quinn img' display></span>
-   <a class='character' id='Quinn' href="https://www.dndbeyond.com/characters/141913115" target="_blank">
-    Quinn Porter</a><br>
-   <span class='indent'>
-    Human | Rogue / Thief<br>
-    Status - <span class='green'>Alive</span>, <span class='purple'>Memory restored</span>, <span class='blue'>Previously known as "Po"</span>
-   </span><br>
-   <span class='Gregor img' display></span>
-   <a class='character' id='Gregor' href="https://www.dndbeyond.com/characters/141535834" target="_blank">
-    Sir Gregor MacDougall</a><br>
-   <span class='indent'>
-    Human | Bard / College of Lore<br>
-    Status - <span class='green'>Alive</span>, <span class='yellow'>Frequently blocks doorways</span>
-   </span><br>
-   <span class='Sylvenna img' display></span>
-   <a class='character' id='Sylvenna' href="https://www.dndbeyond.com/characters/142015170" target="_blank">
-    Sylvenna Leafwarden</a><br>
-   <span class='indent'>
-    Elf | Paladin / Oath of Glory<br>
-    Status - <span class='green'>Alive</span>, <span class='blue'>Likes small animals and emotive robots</span>
-   </span><br>
-   <span class='Therin img' display></span>
-   <a class='character' id='Therin' href="https://www.dndbeyond.com/characters/142063335" target="_blank">
-    Therin Thornvale, Guardian and Lover of Fluphs</a><br>
-   <span class='indent'>
-    Elf | Ranger / Hunter<br>
-    Status - <span class='green'>Alive</span>, <span class='orange'>Burned</span>, <span class='yellow'>Has died more than once</span>
-   </span><br>
+   <p class='character'>
+    <span class='Cedric img' display></span>
+    <a id='Cedric' href="https://www.dndbeyond.com/characters/141801185" target="_blank">
+     Cedric Wisim Cruldor, Smoker of blunts, Hater of modern medicine</a><br>
+    <span class='indent'>
+     Human | Cleric / Life Domain<br>
+     Status - <span class='green'>Alive</span>, <span class='red'>Vampire Spawn (Strahd)</span>, <span class='yellow'>Old</span>, <span class='yellow'>Senile</span>
+    </span>
+   </p>
+   <p class='character'>
+    <span class='Kael img' display></span>
+    <a class='character' id='Kael' href="https://www.dndbeyond.com/characters/142071827" target="_blank">
+     Kael</a><br>
+    <span class='indent'>
+     Human | Warlock / The Fiend / Fighter / Eldritch Knight<br>
+     Status - <span class='green'>Alive</span>, <span class='blue'>Likes to cleave</span>
+    </span>
+   </p>
+   <p class='character'>
+    <span class='Quinn img' display></span>
+    <a class='character' id='Quinn' href="https://www.dndbeyond.com/characters/141913115" target="_blank">
+     Quinn Porter</a><br>
+    <span class='indent'>
+     Human | Rogue / Thief<br>
+     Status - <span class='green'>Alive</span>, <span class='purple'>Memory restored</span>, <span class='blue'>Previously known as "Po"</span>
+    </span>
+   </p>
+   <p class='character'>
+    <span class='Gregor img' display></span>
+    <a class='character' id='Gregor' href="https://www.dndbeyond.com/characters/141535834" target="_blank">
+     Sir Gregor MacDougall</a><br>
+    <span class='indent'>
+     Human | Bard / College of Lore<br>
+     Status - <span class='green'>Alive</span>, <span class='yellow'>Frequently blocks doorways</span>
+    </span>
+   </p>
+   <p class='character'>
+    <span class='Sylvenna img' display></span>
+    <a class='character' id='Sylvenna' href="https://www.dndbeyond.com/characters/142015170" target="_blank">
+     Sylvenna Leafwarden</a><br>
+    <span class='indent'>
+     Elf | Paladin / Oath of Glory<br>
+     Status - <span class='green'>Alive</span>, <span class='blue'>Likes small animals and emotive robots</span>
+    </span>
+   </p>
+   <p class='character'>
+    <span class='Therin img' display></span>
+    <a class='character' id='Therin' href="https://www.dndbeyond.com/characters/142063335" target="_blank">
+     Therin Thornvale, Guardian and Lover of Fluphs</a><br>
+    <span class='indent'>
+     Elf | Ranger / Hunter<br>
+     Status - <span class='green'>Alive</span>, <span class='orange'>Burned</span>, <span class='yellow'>Has died more than once</span>
+    </span>
+   </p>
    <h4>Inactive Party Members</h4>
-   <span class='img' display></span>
-   <a class='character' id='Flippelbottom'>
-    Flippelbottom Tillywix</a><br>
-   <span class='indent'>
-    Researcher (need more details)<br>
-    Status - <span class='red'>Deceased</span>, <span class='orange'>Betrayed</span>, <span class='yellow'>Defeated after being reanimated to be vengeful</span>
-   </span><br>
-   <img class='img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/>
-   <a class='character' id='Ireena'>
-    Ireena Kolyana</a><br>
-   <span class='indent'>
-    Researcher (need more details)<br>
-    Status - <span class='blue'>Left the party</span>, <span class='orange'>Thinks the party incompetent</span>, <span class='blue'>Became leader of Vallaki</span>
-   </span><br>
+   <p class='character'>
+    <span class='img' display></span>
+    <a class='character' id='Flippelbottom'>
+     Flippelbottom Tillywix</a><br>
+    <span class='indent'>
+     Researcher (need more details)<br>
+     Status - <span class='red'>Deceased</span>, <span class='orange'>Betrayed</span>, <span class='yellow'>Defeated after being reanimated to be vengeful</span>
+    </span>
+   </p>
+   <p class='character'>
+    <img class='img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/>
+    <a class='character' id='Ireena'>
+     Ireena Kolyana</a><br>
+    <span class='indent'>
+     Researcher (need more details)<br>
+     Status - <span class='blue'>Left the party</span>, <span class='orange'>Thinks the party incompetent</span>, <span class='blue'>Became leader of Vallaki</span>
+    </span>
+   </p>
    <h2>The Beginning</h2>
    The party receives a letter from, supposedly, Kolyan Indirovich. Later they discover that it was written by Strahd:<br>
    <img style="width: 100%; height: 10em;" src="https://www.dndbeyond.com/attachments/1/831/cos19-10.png"/><br>
