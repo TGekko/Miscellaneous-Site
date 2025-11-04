@@ -25,14 +25,17 @@
     for(let img of e('img, [display]')) img.addEventListener('click', function() {
      display(this, `width: ${this.classList.contains('img') ? `100%` : `auto`}; height: 100%; max-width: 100%;`, `display: flex; justify-content: center;`);
     });
-    for(let c of e('.data [content]')) {
-     let a = e.create('a'),
-         h = c.querySelector('h2');
-     c.id = `Heading-${h.innerText.replaceAll(' ', '-')}`;
-     a.href = `#${c.id}`;
-     a.innerHTML = `&bullet; ${h.innerText}`;
-     e('.contents')[0].append(a, e.create('br'));
+    for(let content of e('.data [content]')) {
+     let div = e.create('div'),
+         h = content.querySelector('h1, h2');
+     let id = `Heading-${h.innerText.replaceAll(' ', '-')}`;
+     for(var i = 0; e(`#${id}${i || ''}`)[0]; i--) {}
+     content.id = id + (i || '');
+     div.setAttribute('to', `#${content.id}`);
+     div.innerHTML = `&bullet; ${h.innerText}`;
+     e('.contents')[0].append(div);
     }
+    for(let to of e('[to]')) to.addEventListener('click', function() { e(this.getAttribute('to'))[0].scrollIntoView({behavior: 'smooth'}); })
    });
   </script>
   <style>
@@ -119,14 +122,17 @@
     padding: 0.5em;
     overflow: auto;
     background: #EDC;
-    > a {
-     text-decoration: none;
+   }
+   [to] {
+    cursor: pointer;
+    &:hover {
+     color: #088;
     }
    }
    .data {
     width: min(calc(100% - 7em), 40em);
     padding: 0.5em;
-    > h1, h2, h3, h4 {
+    h1, h2, h3, h4 {
      text-align: center;
     }
    }
@@ -154,8 +160,8 @@
     position: absolute;
     inset: 0.5em 0.5em 0 0;
     background: url("https://tgekko.com/assets/TheWheel/remove.svg"), #210;
-    width: 4em;
-    height: 4em;
+    width: max(4em, 5vh);
+    height: max(4em, 5vh);
     border-radius: 2em;
     z-index: 100;
    }
@@ -179,14 +185,16 @@
  <body>
   <div class='contents'>
    <div class='hf'>Points of Interest</div>
-   <a href="#Heading-Party-Members">&bullet; Party Members</a><br>
-   <a href="#Heading-Map-of-Barovia">&bullet; Map of Barovia</a><br>
-   <a href="#Heading-Tser-Pool-Encampment">&bullet; Main Quest</a><br>
+   <div to="#Heading-Party-Members">&bullet; Party Members</div>
+   <div to="#Heading-Map-of-Barovia">&bullet; Map of Barovia</div>
+   <div to="#Heading-Tser-Pool-Encampment">&bullet; Main Quest</div>
    <div class='hf'>Table of Contents</div>
   </div>
   <div class='data'>
-   <h1>The Curse of Strahd</h1>
-   <img src="https://www.dndbeyond.com/attachments/8/220/cos-cover-4k.jpg"/>
+   <div content>
+    <h1>The Curse of Strahd</h1>
+    <img src="https://www.dndbeyond.com/attachments/8/220/cos-cover-4k.jpg"/>
+   </div>
    <div content>
     <h2><a src="https://www.dndbeyond.com/campaigns/6421835">Party Members</a></h2>
     <h4>Active Party Members</h4>
@@ -382,7 +390,7 @@
    <div content>
     <h2>Vallaki</h2>
     <img class='float-left' style="width: 15em" src="https://www.dndbeyond.com/attachments/6/303/cos05-02-player.jpg"/>
-    The party approached the City of Vallaki with <img class='em-img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/> Ireena. They made it through the tall wooden gates, and they visited The Blue Water Inn.
+    The party approached the City of Vallaki with <img class='em-img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/> Ireena. They made it through the tall wooden gates, and they visited The Blue Water Inn. They passed several ravens on the way in. <a title='Quinn' class="Quinn em-img" href='#Quinn'></a> Po tossed a coin to one of them, and they happily took it. <a title='Therin' class="Therin em-img" href='#Therin'></a> Therin attempted interacting with one of the ravens, and they suddenly turned into a human and walked away. This made Therin intensely suspicious of all ravens he saw. During this visit to the inn, they briefly met a man named <img class="em-img" src="https://www.dndbeyond.com/avatars/thumbnails/323/737/1000/1000/636623995708971736.png"/> Rictavio, the leader of a carnival. He suggested that they meet him at his wagon just down the road.
    </div>
    <div content>
     <h2>Castle Ravenloft</h2>
