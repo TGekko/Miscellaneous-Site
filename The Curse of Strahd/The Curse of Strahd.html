@@ -84,7 +84,7 @@
     customElements.define('tg-line', TGLineElement);
     customElements.define('tg-name', TGNameElement);
     for(let img of e('img, [display]')) img.addEventListener('click', function() {
-     display(this, `width: ${this.classList.contains('img') ? `100%` : `auto`}; height: 100%; max-width: 100%;`, `display: flex; justify-content: center;`);
+     display(this, this.getAttribute('display') || `width: ${this.classList.contains('img') ? `100%` : `auto`}; height: 100%; max-width: 100%;`, `display: flex; justify-content: center;`);
     });
     for(let content of e('.data [content]')) {
      let div = e.create('div'),
