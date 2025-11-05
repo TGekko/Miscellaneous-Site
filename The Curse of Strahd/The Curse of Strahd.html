@@ -53,23 +53,27 @@
 
     connectedCallback() {
      if(this.name in this.names)
-      this.innerHTML = `${this.names[this.name]} ${this.innerHTML}`;
+      this.innerHTML = `${this.names[this.name]}${this.innerHTML ? ` ${this.innerHTML}` : ``}`;
     }
 
     names = {
-     'Cedric': `<a title='Cedric' class="Cedric em-img" href='#Cedric'></a>`,
-     'Donavich': `<img class='em-img' src="https://www.dndbeyond.com/attachments/1/723/cos03-07.png"/>`,
-     'Doru': `<img class='em-img' src="https://www.dndbeyond.com/attachments/1/724/cos03-08.png"/>`,
-     'Gregor': `<a title='Gregor' class="Gregor em-img" href='#Gregor'></a>`,
-     'Ireena': `<img class='em-img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/>`,
-     'Ismark': `<img class='em-img' src="https://www.dndbeyond.com/attachments/1/719/cos03-03.png"/>`,
-     'Kael': `<a title='Kael' class="Kael em-img" href='#Kael'></a>`,
-     'Po': `<a title='Quinn' class="Quinn em-img" href='#Quinn'></a>`,
-     'Quinn': `<a title='Quinn' class="Quinn em-img" href='#Quinn'></a>`,
-     'Rictavio': `<img class="em-img" src="https://www.dndbeyond.com/avatars/thumbnails/323/737/1000/1000/636623995708971736.png"/>`,
-     'Strahd': `<img class='em-img' src="assets/Strahd.jpg"/>`,
-     'Sylvenna': `<a title='Sylvenna' class="Sylvenna em-img" href='#Sylvenna'></a>`,
-     'Therin': `<a title='Therin' class="Therin em-img" href='#Therin'></a>`,
+     'Cedric': `<img title='Cedric' src="assets/Cedric.jpg"/>`,
+     'Donavich': `<img title='Donavich' src="https://www.dndbeyond.com/attachments/1/723/cos03-07.png"/>`,
+     'Doru': `<img title='Doru' src="https://www.dndbeyond.com/attachments/1/724/cos03-08.png"/>`,
+     'Gregor': `<img title='Gregor' src="assets/Gregor.jpg"/>`,
+     'Ireena': `<img title='Ireena Kolyana' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/>`,
+     'Ismark': `<img title='Ismark Kolyanovich' src="https://www.dndbeyond.com/attachments/1/719/cos03-03.png"/>`,
+     'Izek': `<img title='Izek Strazni' src="https://www.dndbeyond.com/avatars/323/743/636623996907006468.png"/>`,
+     'Kael': `<img title='Kael' src="assets/Kael.jpg"/>`,
+     'Milivoj': `<img title='Milivoj' src="https://www.dndbeyond.com/attachments/1/749/cos05-03.png"/>`,
+     'Po': `<img title='Po' src="assets/Quinn.jpg"/>`,
+     'Quinn': `<img title='Quinn Porter' src="assets/Quinn.jpg"/>`,
+     'Rictavio': `<img title="Rictavio" src="https://www.dndbeyond.com/avatars/thumbnails/323/737/1000/1000/636623995708971736.png"/>`,
+     'Strahd': `<img title='Strahd von Zarovich' src="assets/Strahd.jpg"/>`,
+     'Sylvenna': `<img title='Sylvenna Leafwarden' src="assets/Sylvenna.jpg"/>`,
+     'Szoldar': `<img title='Szoldar Szoldarovich' src="https://www.dndbeyond.com/attachments/1/751/cos05-05.png"/>`,
+     'Therin': `<img title='Therin Thornvale' src="assets/Therin.jpg"/>`,
+     'Yevgeni': `<img title='Yevgeni Krushkin' src="https://www.dndbeyond.com/attachments/1/752/cos05-06.png"/>`,
     }
    }
 
@@ -142,7 +146,7 @@
     text-align: right;
    }
    tg-name { text-wrap: nowrap; }
-   .img, .em-img {
+   .img, .em-img, tg-name > img {
     display: inline-block;
     background-size: contain;
     background-position: center;
@@ -209,7 +213,7 @@
      text-align: center;
     }
    }
-   .em-img {
+   .em-img, tg-name > img {
     width: 1em;
     height: 1em;
    }
@@ -416,7 +420,7 @@
     <p>In the morning, the cart in which they stowed Flippelbottom was gone. They ignored this and moved on to the house of the Burgomaster, who supposedly sent them the letter that brought them there, at the request of his son, <tg-name>Ismark,</tg-name> who was in the tavern. The party showed <tg-name>Ismark</tg-name> the letter they received from his father. <tg-name>Ismark</tg-name> confirms that the letter could not have been written by his father, who was recently deceased, as the handwriting and signature did not match that of his father.</p>
     <img class='float-right' style="width: 10em;" src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/>
     <p>There, they found <tg-name>Ireena Kolyana,</tg-name> sister to Ismark. <tg-name>Strahd</tg-name> was interested in <tg-name>Ireena,</tg-name> so they requested the help of the party in escorting her to Vallaki. During this request, <tg-name>Cedric</tg-name> expressed that they saw a kid be kidnapped and didn't do anything about it. Thankfully, he expressed this in such a strange way that <tg-name>Ireena</tg-name> and <tg-name>Ismark</tg-name> dismissed the comment.</p>
-    <p><tg-name>Ireena</tg-name> joins the party and asks for help transporting a coffin, containing the recently deceased Burgomaster, to the cemetery. During this interaction, the party realized that they left <tg-name>Kael</tg-name> sleeping under a table in the tavern for the whole day.</p>
+    <p><tg-name>Ireena</tg-name> joined the party and asked for help transporting a coffin, containing the recently deceased Burgomaster, to the cemetery. During this interaction, the party realized that they left <tg-name>Kael</tg-name> sleeping under a table in the tavern for the whole day.</p>
     <img class='float-left' style='width: 17em' src="https://www.dndbeyond.com/attachments/2/768/cos302.jpg"/>
     <p>Upon visiting the church, the party heckled <tg-name name='Donavich'>a terrified priest,</tg-name> broke into the basement, and beheaded <tg-name name='Doru'>a vampire spawn.</tg-name> The vampire spawn was the son of the <tg-name name='Donavich'>priest,</tg-name> whom he kept down there since a failed raid of Castle Ravenloft.</p>
     <p>They buried the Burgomaster behind the church, and they stayed there for the night. The church was accosted by Strahd Zombies in the dark, but the party left safely the next day.</p>
@@ -451,7 +455,17 @@
    <div content>
     <h2>Vallaki</h2>
     <img class='float-left' style="width: 15em" src="https://www.dndbeyond.com/attachments/6/303/cos05-02-player.jpg"/>
-    <p>The party approached the City of Vallaki with <tg-name>Ireena.</tg-name> They made it through the tall wooden gates, and they visited The Blue Water Inn. They passed several ravens on the way in. <tg-name>Po</tg-name> tossed a coin to one of them, and they happily took it. <tg-name>Therin</tg-name> attempted interacting with one of the ravens, and they suddenly turned into a human and walked away. This made Therin intensely suspicious of all ravens he saw. During this visit to the inn, they briefly met a man named <tg-name>Rictavio,</tg-name> the leader of a carnival. He suggested that they meet him at his wagon just down the road.</p>
+    <p>The party approached the City of Vallaki with <tg-name>Ireena.</tg-name> They made it through the tall wooden gates, and they visited The Blue Water Inn. They passed several ravens on the way in. <tg-name>Po</tg-name> tossed a coin to one of them, and they happily took it. <tg-name>Therin</tg-name> attempted interacting with one of the ravens, and they suddenly turned into a human and walked away. This made <tg-name>Therin</tg-name> intensely suspicious of all ravens he saw. During this visit to the inn, they briefly met a man named <tg-name>Rictavio,</tg-name> the leader of a carnival. Since the party suggested that they were against <tg-name>Strahd</tg-name>, he suggested that they meet him at his wagon just down the road, then he left the inn.</p>
+    <p><tg-name>Therin</tg-name> saw <tg-name name='Szoldar'></tg-name><tg-name name='Yevgeni'></tg-name> two hunters. He walked up to them to see if they had any useful information, but they weren't particularly talkative until <tg-name>Therin</tg-name> bought them drinks. Even then, they didn't help much. <tg-name>Gregor</tg-name> saw two nobility in the tavern, and he walked up to them. They asked for stories of his escapades -- to which <tg-name>Gregor</tg-name> excitedly recounted some heavily embelished stories from the book he was writing. Through talking with the patrons and owners, the party discovers that the Burgomaster has put on a festival in town.</p>
+    <img class='float-right' style="width: 15em" src="https://www.dndbeyond.com/attachments/1/758/cos05-12.png"/>
+    <p>Parting ways with <tg-name>Ireena,</tg-name> the party briefly left the inn to visit with <tg-name>Rictavio</tg-name> before resting for the night.Meeting with <tg-name>Rictavio</tg-name> at his carnival wagon, they heard some unsettling sounds come from the wagon. He ushered them over to inquire about the party's intentions to fight <tg-name>Strahd</tg-name>. He concluded that the party was serious, despite their odd demeanor, and told them that he could be a great help in their fight. Fearing being overheard or spied upon in town, he told the party that they should meet him at his tower northwest of Vallaki. He also claimed to have a saber-tooth tiger, gesturing to his wagon, which he may release in Vallaki. They parted ways and the party returned to the inn to rest for the night.</p>
+    <p>In the morning, <tg-name>Therin</tg-name> decided to explore the inn before the party leaves. While the rest of the party enjoyed the inn and some food, <tg-name>Therin</tg-name> proceeded to go into the personal bedroom of the owners of the inn. He thought this to be acceptable. Invading their room, he deftly detected a secret door behind some easily moved furniture and entered it to find that he was in the loft of the attached barn behind the inn. Within, he found a veritable conspiracy of ravens surrounding the edges of this barn's second floor. They all turned their heads to look at him, as if accusing him of being somewhere he shouldn't be. <tg-name>Therin</tg-name> was dumbfounded at the amount of ravens, believing them all to be wereravens like the one he saw in front of the inn. Timidly, he waved and curtly bowed his head in greeting. Talking, as if to himself, he inquired as to the condition of the ravens, their mood, and what they were doing there. The ravens, which could just be ravens, gave no response. <tg-name>Therin,</tg-name> taking a final look around, spies a chest in the corner. Asking to see what's in the chest, again to no response, he reached for it. Upon touching the chest, the ravens all fly at him, infuriated with the invasion. With his quick reflexes, <tg-name>Therin</tg-name> dodges the whirling groups of ravens, even diving through one and grabbing one of the ravens as he escaped.</p>
+    <img class='float-right' style='width: 10em' src="https://www.dndbeyond.com/attachments/1/753/cos05-07.png"/>
+    <p>Immediately running down the stairs, raven in hand, he madly demands an explanation from the innkeepers. Clearly knowing that the ravens where there, the innkeepers, Urwin Martikov and Danika Dorakova, are outraged to see that <tg-name>Therin</tg-name> has captured one and is waving it about. Pulling a weapon from under the bar, Urwin threatened <tg-name>Therin</tg-name> and ordered him to let go of the raven. Surprised by the weapon, <tg-name>Therin</tg-name> let go of the raven, and Urwin shouted for him to get out of their inn. Therin and the party quickly left the inn, and Therin tried to coax the party to the barn in the back to show them the ravens. Cedric followed, and they were quickly driven out by the owners, who were likely checking on the ravens.</p>
+    <p><tg-name>Kael</tg-name>, realizing that he must be a better person to attune to the Sunsword, desired to proceed to the town's church. The party proceeded west and came to a procession in the road -- lead by <tg-name>Izek Strazni</tg-name>. The party clearly saw a bystander speak out, saying something about the festival. <tg-name>Izek</tg-name> found this distasteful and ordered guards to chain the commoner -- having him walk behind his horse.<tg-name>Cedric</tg-name> combative as he is, shouted something to taunt <tg-name>Izek</tg-name>. The procession stoped again and <tg-name>Izek</tg-name> inquired who spoke. <tg-name>Cedric</tg-name> pointed sheepishly at <tg-name>Therin</tg-name>, whom <tg-name>Izek</tg-name> immediately had guards chain to his horse. The procession continued, and the party followed.</p>
+    <img style='width: 15em;' class='float-left' src="https://preview.redd.it/bisj5wd6an671.jpg?width=1080&crop=smart&auto=webp&s=d1759dcc96e51edc0cc6dc08a5d71f40ecb43316"/>
+    <p>Coming to the town square, the party saw, on the far side of the square, stockades filled with men, women, and children. One of the stockades had <tg-name>Therin</tg-name> in it, resigned to an unpleasant fate after his unsettling morning. <tg-name>Gregor</tg-name>, concerned, walked up to a nearby commoner and asked why people were in the stockades. He was met with a smile, and told that the people who were locked up weren't smiling, or were particularly unhappy, during the festival. When inquiring as to the poor condition of the people, they responded saying that those people were left to starve. The uncanny smile of the commoner felt troubling as they spoke. Meanwhile <tg-name>Po,</tg-name> immediately upon entering the square, had headed toward <tg-name>Therin</tg-name> -- intending to pick the lock and save him. <tg-name>Gregor</tg-name> looked up and saw <tg-name>Po</tg-name> gesture, as if in need of a distraction. <tg-name>Gregor,</tg-name> being the practiced noble bard, immediately took to the stage set up just behind the stockades. He began rambling about prophecies and such, luring the guards and commonors to look away from Therin. At that moment, <tg-name>Rictavio's</tg-name> tiger appears behind him, and many of the guards decided to pursue it. Gregor deceived them, saying that he believed the owner of the tiger to be north of there. Several of the guards went in the direction he indicated. With the guards thinned, <tg-name>Po</tg-name> sneaked over to <tg-name>Therin</tg-name> and easily picked the lock, guiding Therin to the alleyways between the nearby buildings. The party members swiftly moved on to the church.</p>
+    <p>There, <tg-name>Kael</tg-name> met a priest and asked him how to be a better person. The priest said something generic about not doing bad things, and <tg-name>Kael</tg-name> found it to be quite profound. The priest then expressed that a good person might help him with his current issue, then proceeded to tell <tg-name>Kael</tg-name> that the bones of the patron saint of the church and town have vanished. The priest found this particularly concerning, as the bones protect the town from <tg-name>Strahd</tg-name>. He indicates that the bones must be found before the height of the festival tomorrow. <tg-name>Kael</tg-name> made it his personal mission to find the bones, and asked the priest where to start. He said that the boy who helps maintain the grounds, <tg-name>Milivoj,</tg-name> may know something.</p>
    </div>
    <div content>
     <h2>Castle Ravenloft</h2>
