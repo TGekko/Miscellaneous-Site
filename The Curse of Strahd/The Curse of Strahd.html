@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
  <head>
-  <title>The Curse of Strahd</title>
+  <title>The Curse of Strahd - History</title>
   <link id='favicon' rel='shortcut icon' type='image/jpeg' href='assets/Strahd.jpg'/>
   <script>
    let e = (query) => Array.from(document.querySelectorAll(query));
@@ -12,7 +12,7 @@
     let item = e.create('div');
     let close = e.create('button');
     element.style+= style;
-    element.classList.remove('float-left', 'float-right');
+    element.classList.remove('float-left', 'float-right', 'full', 'x-large', 'large', 'medium', 'small');
     if(element.hasAttribute('src')) element.addEventListener('click', () => window.open(element.getAttribute('src'), '_blank'));
     item.classList.add('display');
     item.style = dstyle;
@@ -60,7 +60,9 @@
      'Cedric': `<img title='Cedric' src="assets/Cedric.jpg"/>`,
      'Donavich': `<img title='Donavich' src="https://www.dndbeyond.com/attachments/1/723/cos03-07.png"/>`,
      'Doru': `<img title='Doru' src="https://www.dndbeyond.com/attachments/1/724/cos03-08.png"/>`,
-     'Egon': `<img title='Egon Belephant' src="https://i.pinimg.com/736x/f7/bf/24/f7bf242aeb2dbc1bdac1a024bff48089.jpg"/>`,
+     'Egon': `<img title='Egon Belephant' style='object-fit: cover' src="https://i.pinimg.com/736x/f7/bf/24/f7bf242aeb2dbc1bdac1a024bff48089.jpg"/>`,
+     'Evil': `<img/>`,
+     'Flippelbottom': `<img/>`,
      'Fiona': `<img title='Lady Fiona Wachter' src="https://www.dndbeyond.com/attachments/1/757/cos05-11.png"/>`,
      'Gregor': `<img title='Gregor' src="assets/Gregor.jpg"/>`,
      'Ireena': `<img title='Ireena Kolyana' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/>`,
@@ -68,6 +70,7 @@
      'Izek': `<img title='Izek Strazni' src="https://www.dndbeyond.com/avatars/323/743/636623996907006468.png"/>`,
      'Kael': `<img title='Kael' src="assets/Kael.jpg"/>`,
      'Milivoj': `<img title='Milivoj' src="https://www.dndbeyond.com/attachments/1/749/cos05-03.png"/>`,
+     'Pidlwick': `<img title='Pidlwick' src="https://www.dndbeyond.com/avatars/thumbnails/323/740/1000/1000/636623996229835683.png"/>`,
      'Po': `<img title='Po' src="assets/Quinn.jpg"/>`,
      'Quinn': `<img title='Quinn Porter' src="assets/Quinn.jpg"/>`,
      'Rictavio': `<img title="Rictavio" src="https://www.dndbeyond.com/avatars/thumbnails/323/737/1000/1000/636623995708971736.png"/>`,
@@ -75,7 +78,7 @@
      'Sylvenna': `<img title='Sylvenna Leafwarden' src="assets/Sylvenna.jpg"/>`,
      'Szoldar': `<img title='Szoldar Szoldarovich' src="https://www.dndbeyond.com/attachments/1/751/cos05-05.png"/>`,
      'Therin': `<img title='Therin Thornvale' src="assets/Therin.jpg"/>`,
-     'Victor': `<img title='Victor Vallakovich' src="https://wiki.leagueoflegends.com/en-us/images/Viktor_Arcane_2_Render.png?f2595"/>`,
+     'Victor': `<img title='Victor Vallakovich' style='object-fit: cover' src="https://wiki.leagueoflegends.com/en-us/images/Viktor_Arcane_2_Render.png?f2595"/>`,
      'Yevgeni': `<img title='Yevgeni Krushkin' src="https://www.dndbeyond.com/attachments/1/752/cos05-06.png"/>`,
     }
    }
@@ -84,7 +87,7 @@
     customElements.define('tg-line', TGLineElement);
     customElements.define('tg-name', TGNameElement);
     for(let img of e('img, [display]')) img.addEventListener('click', function() {
-     display(this, this.getAttribute('display') || `width: ${this.classList.contains('img') ? `100%` : `auto`}; height: 100%; max-width: 100%;`, `display: flex; justify-content: center;`);
+     display(this, this.getAttribute('display') || `width: min(auto, 100%); height: min(auto, 100%);`, `display: flex; justify-content: center;`);
     });
     for(let content of e('.data [content]')) {
      let div = e.create('div'),
@@ -129,12 +132,18 @@
    }
    img {
     object-fit: contain;
-    width: 100%;
     border-radius: 0.25em;
     cursor: pointer;
    }
    button {
     cursor: pointer;
+   }
+   p[c] {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
    }
    p:not([n]) {
     text-indent: 2em;
@@ -149,12 +158,11 @@
     text-align: right;
    }
    tg-name { text-wrap: nowrap; }
-   .img, .em-img, tg-name > img {
-    display: inline-block;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-   }
+   .full { width: 100%; }
+   .xlarge { width: 20em; }
+   .large { width: 15em; }
+   .medium { width: 10em; }
+   .small { width: 5em; }
    :not(.display) > :is(.Cedric, .Kael, .Quinn, .Gregor, .Sylvenna, .Therin) {
     border-radius: 12.5%;
     box-shadow: -1px 2px 4px black;
@@ -167,7 +175,7 @@
    .Therin { background-image: url("assets/Therin.jpg"); }
    .character {
     display: flex;
-    > :is(img, .img) {
+    > tg-name > img {
      margin-right: 0.5em;
      width: 3em;
      height: 3em;
@@ -216,7 +224,7 @@
      text-align: center;
     }
    }
-   .em-img, tg-name > img {
+   :not(.character) > tg-name > img {
     width: 1em;
     height: 1em;
    }
@@ -249,6 +257,10 @@
      margin-top: 0.4em;
     }
    }
+   [summary] {
+    font-style: italic;
+    font-size: 0.9em;
+   }
    .hidden {
     display: block;
     width: 0;
@@ -270,26 +282,27 @@
   <div class='data'>
    <div content>
     <h1>The Curse of Strahd</h1>
-    <img src="https://www.dndbeyond.com/attachments/8/220/cos-cover-4k.jpg"/>
+    <h3>A History</h3>
+    <img class='full' src="https://www.dndbeyond.com/attachments/8/220/cos-cover-4k.jpg"/>
    </div>
    <div content>
     <h2><a src="https://www.dndbeyond.com/campaigns/6421835">Party Members</a></h2>
     <h4>Active Party Members</h4>
     <div class='character'>
-     <span class='Cedric img' display></span>
+     <tg-name name='Cedric'></tg-name>
      <span>
-      <a id='Cedric' href="https://www.dndbeyond.com/characters/141801185" target="_blank">
+      <a href="https://www.dndbeyond.com/characters/141801185" target="_blank">
        Cedric Wisim Cruldor, Smoker of blunts, Hater of modern medicine</a><br>
       <span class='indent'>
        Human | Cleric / Life Domain<br>
-       Status - <span class='green'>Alive</span>, <span class='red'>Vampire Spawn (<img class='em-img' src="assets/Strahd.jpg"/> Strahd)</span>, <span class='yellow'>Old</span>, <span class='yellow'>Senile</span>
+       Status - <span class='green'>Alive</span>, <span class='red'>Vampire Spawn (<tg-name>Strahd</tg-name>), <span class='yellow'>Old</span>, <span class='yellow'>Senile</span>
       </span>
      </span>
     </div>
     <div class='character'>
-     <span class='Kael img' display></span>
+     <tg-name name='Kael'></tg-name>
      <span>
-      <a id='Kael' href="https://www.dndbeyond.com/characters/142071827" target="_blank">
+      <a href="https://www.dndbeyond.com/characters/142071827" target="_blank">
        Kael</a><br>
       <span class='indent'>
        Human | Warlock / The Fiend / Fighter / Eldritch Knight<br>
@@ -298,9 +311,9 @@
      </span>
     </div>
     <div class='character'>
-     <span class='Quinn img' display></span>
+     <tg-name name='Quinn'></tg-name>
      <span>
-      <a id='Quinn' href="https://www.dndbeyond.com/characters/141913115" target="_blank">
+      <a href="https://www.dndbeyond.com/characters/141913115" target="_blank">
        Quinn Porter</a><br>
       <span class='indent'>
        Human | Rogue / Thief<br>
@@ -309,9 +322,9 @@
      </span>
     </div>
     <div class='character'>
-     <span class='Gregor img' display></span>
+     <tg-name name='Gregor'></tg-name>
      <span>
-      <a id='Gregor' href="https://www.dndbeyond.com/characters/141535834" target="_blank">
+      <a href="https://www.dndbeyond.com/characters/141535834" target="_blank">
        Sir Gregor MacDougall</a><br>
       <span class='indent'>
        Human | Bard / College of Lore<br>
@@ -320,9 +333,9 @@
      </span>
     </div>
     <div class='character'>
-     <span class='Sylvenna img' display></span>
+     <tg-name name='Sylvenna'></tg-name>
      <span>
-      <a id='Sylvenna' href="https://www.dndbeyond.com/characters/142015170" target="_blank">
+      <a href="https://www.dndbeyond.com/characters/142015170" target="_blank">
        Sylvenna Leafwarden</a><br>
       <span class='indent'>
        Elf | Paladin / Oath of Glory<br>
@@ -331,9 +344,9 @@
      </span>
     </div>
     <div class='character'>
-     <span class='Therin img' display></span>
+     <tg-name name='Therin'></tg-name>
      <span>
-      <a id='Therin' href="https://www.dndbeyond.com/characters/142063335" target="_blank">
+      <a href="https://www.dndbeyond.com/characters/142063335" target="_blank">
        Therin Thornvale, Guardian and Lover of Flumphs</a><br>
       <span class='indent'>
        Elf | Ranger / Hunter<br>
@@ -343,30 +356,30 @@
     </div>
     <h4>Active Followers</h4>
     <div class='character'>
-     <img class='img'/>
+     <tg-name name='Evil'></tg-name>
      <span>
       <a id='Evil Spongebob'>
        Evil Spongebob</a><br>
       <span class='indent'>
        Cat<br>
-       Status - <span class='green'>Alive</span>
+       Status - <span class='green'>Alive</span>, <span class='blue'>Initially named Boots</span>
       </span>
      </span>
     </div>
     <div class='character'>
-     <img class='img' src="https://www.dndbeyond.com/avatars/thumbnails/323/740/1000/1000/636623996229835683.png"/>
+     <tg-name name='Pidlwick'></tg-name>
      <span>
       <a id='Pidlwick II'>
        Pidlwick II</a><br>
       <span class='indent'>
        Construct<br>
-       Status - <span class='green'>Functional</span>, <span class='blue'>tends to follow <tg-name>Sylvenna</tg-name></span>
+       Status - <span class='green'>Functional</span>, <span class='blue'>Tends to follow <tg-name>Sylvenna</tg-name></span>
       </span>
      </span>
     </div>
     <h4>Inactive Party Members</h4>
     <div class='character'>
-     <span class='img' display></span>
+     <tg-name name='Flippelbottom'></tg-name>
      <span>
       <a id='Flippelbottom'>
        Flippelbottom Tillywix</a><br>
@@ -377,7 +390,7 @@
      </span>
     </div>
     <div class='character'>
-     <img class='img' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/>
+     <tg-name name='Ireena'></tg-name>
      <span>
       <a id='Ireena'>
        Ireena Kolyana</a><br>
@@ -388,10 +401,10 @@
      </span>
     </div>
     <div class='character'>
-     <img class='img' style='object-fit: fill;' src="https://wiki.leagueoflegends.com/en-us/images/Viktor_Arcane_2_Render.png?f2595"/>
+     <tg-name name='Victor'></tg-name>
      <span>
-      <a id='Viktor'>
-       Viktor Vallakovich</a><br>
+      <a id='Victor'>
+       Victor Vallakovich</a><br>
       <span class='indent'>
        Human | Mage<br>
        Status - <span class='red'>Deceased</span>, <span class='orange'>Body found, mouth sewn, in Castle Ravenloft</span>
@@ -400,7 +413,7 @@
     </div>
     <h4>Inactive Followers</h4>
     <div class='character'>
-     <img class='img' style='object-fit: fill;' src="https://i.pinimg.com/736x/f7/bf/24/f7bf242aeb2dbc1bdac1a024bff48089.jpg"/>
+     <tg-name name='Egon'></tg-name>
      <span>
       <a id='Egon Belephant'>
        Egon Belephant</a><br>
@@ -415,8 +428,8 @@
     <h2>The Beginning</h2>
     <p>The party received a letter from, supposedly, Kolyan Indirovich. Later they discovered that it was written by <tg-name>Strahd:</th-name></p>
     <tg-line></tg-line>
-    <p n><img style="width: 100%; height: 10em;" src="https://www.dndbeyond.com/attachments/1/831/cos19-10.png"/></p>
-    <img class='float-right' style="width: 15em;" src="https://www.dndbeyond.com/attachments/8/228/f1.jpg"/>
+    <p c n><img class="large" src="https://www.dndbeyond.com/attachments/1/831/cos19-10.png"/></p>
+    <img class='float-right large' src="https://www.dndbeyond.com/attachments/8/228/f1.jpg"/>
     <p n>Hail to thee of might and valor.</p>
     <p>I, a lowly servant of Barovia, send honor to thee. We plead for thy so desperately needed assistance.</p>
     <p>The love of my life, Ireena Kolyana, has been afflicted by an evil so deadly that even the good people of our village cannot protect her. She languishes from her wound, and I would have her saved from this menace.</p>
@@ -429,12 +442,12 @@
    <div content>
     <h2>Barovia</h2>
     <p>The party approached the gates of Barovia:</p>
-    <p n><img src="https://www.dndbeyond.com/attachments/1/714/cos02-04.png"/></p>
+    <p n><img class='full' src="https://www.dndbeyond.com/attachments/1/714/cos02-04.png"/></p>
     <p id='Heading-Map-of-Barovia'>This map was acquired later, in the Village of Barovia, noted below:</p>
-    <p n><img src="https://media-waterdeep.cursecdn.com/attachments/2/765/cos201.jpg"/></p>
+    <p n><img class='full' src="https://media-waterdeep.cursecdn.com/attachments/2/765/cos201.jpg"/></p>
     <p>As the party traveled along the road, they found the body of a man clutching the following letter:</p>
     <tg-line></tg-line>
-    <img class='float-right' style='width: 15em;' src="https://www.dndbeyond.com/attachments/8/234/f7.jpg"/>
+    <img class='float-right large' src="https://www.dndbeyond.com/attachments/8/234/f7.jpg"/>
     <p n>Hail thee of might and valor:</p>
     <p>I, the Burgomaster of Barovia, send you honor—with despair.</p>
     <p>My adopted daughter, the fair Ireena Kolyana, has been these past nights bitten by a vampyr. For over four hundred years, this creature has drained the life blood of my people. Now, my dear Ireena languishes and dies from an unholy wound caused by this vile beast. He has become too powerful to conquer.</p>
@@ -446,11 +459,12 @@
    </div>
    <div content>
     <h2>The Village of Barovia</h2>
-    <img class='float-left' style='width: 30%;' src="https://www.dndbeyond.com/attachments/2/767/cos301.jpg"/>
+    <p summary>The party met <tg-name>Flippelbottom Tillywix</tg-name> and were chased by deadly fog. The got trapped in the "Murder House", and <tg-name>Sylvenna</tg-name> secretly murdered <tg-name>Flippelbottom</tg-name> to save the party. <tg-name>Strahd</tg-name> taunted them as they struggled. They met <tg-name>Ireena Kolyana</tg-name> and harassed a priest in the church.</p>
+    <img class='float-left medium' src="https://www.dndbeyond.com/attachments/2/767/cos301.jpg"/>
     <p>Along the road to a nearby village, the party met two people, one of which, Flippelbottom Tillywix, joined them on their journey. <tg-name>Po</tg-name> -- Quinn before he regained his memories -- tried to pick the pocket of the other man. The man intercepted the attempt and laughed before walking away.</p>
     <p>The party entered the Village of Barovia, chased by a destructive fog which tears at those who enter it.</p>
     <p>The deadly fog ushered the party into a building known as the "Death House".</p>
-    <img class='float-right' style='width: 30%;' src="https://www.dndbeyond.com/attachments/3/238/deathhouseplayer.jpg"/>
+    <img class='float-right medium' src="https://www.dndbeyond.com/attachments/3/238/deathhouseplayer.jpg"/>
     <p>The fog closed in around the building and filled it as the party explored the house -- a house haunted by the ghosts of those who died or were slaughtered there.</p>
     <p>As the party climbed the house, they came across a letter from <tg-name>Strahd</tg-name> to someone long dead:</p>
     <tg-line></tg-line>
@@ -467,16 +481,17 @@
     Believing the house to still be filled with fog, the party felt trapped. Eventually, while evading the Shambling Mound, <tg-name>Sylvenna</tg-name> whisked Flippelbottom back down to the alter, called him a hero, then mercilessly runs him through. This appeased the cultists. <tg-name>Strahd</tg-name>, amused, seemed to appear in the room for a moment, laughing. <tg-name>Therin</tg-name> took Flippelbottom's clothing -- somehow wearing it well even though Flippelbottom was half of <tg-name>Therin's</tg-name> height.</p>
     <p>With the cultists' ghosts satisfied with Flippelbottom dead and the Shambling Mound gone, the party took Flippelbottom's body with them as they left the house. Finding a nearby tavern to rest in, they unceremoniously plopped Flippelbottom's body in a nearby cart -- likely owned by people called the Vistani. In the tavern, <tg-name>Sylvenna</tg-name> spoke with some Vistani. They gave her a map of Barovia and told her to visit a woman named <tg-name>Madam Eva</tg-name> at the Tser Pools Encampment. They slept haphazardly in the tavern.</p>
     <p>In the morning, the cart in which they stowed Flippelbottom was gone. They ignored this and moved on to the house of the Burgomaster, who supposedly sent them the letter that brought them there, at the request of his son, <tg-name>Ismark,</tg-name> who was in the tavern. The party showed <tg-name>Ismark</tg-name> the letter they received from his father. <tg-name>Ismark</tg-name> confirms that the letter could not have been written by his father, who was recently deceased, as the handwriting and signature did not match that of his father.</p>
-    <img class='float-right' style="width: 10em;" src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/>
+    <img class='float-right medium' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/>
     <p>There, they found <tg-name>Ireena Kolyana,</tg-name> sister to Ismark. <tg-name>Strahd</tg-name> was interested in <tg-name>Ireena,</tg-name> so they requested the help of the party in escorting her to Vallaki. During this request, <tg-name>Cedric</tg-name> expressed that they saw a kid be kidnapped and didn't do anything about it. Thankfully, he expressed this in such a strange way that <tg-name>Ireena</tg-name> and <tg-name>Ismark</tg-name> dismissed the comment.</p>
     <p><tg-name>Ireena</tg-name> joined the party and asked for help transporting a coffin, containing the recently deceased Burgomaster, to the cemetery. During this interaction, the party realized that they left <tg-name>Kael</tg-name> sleeping under a table in the tavern for the whole day.</p>
-    <img class='float-left' style='width: 17em' src="https://www.dndbeyond.com/attachments/2/768/cos302.jpg"/>
+    <img class='float-left xlarge' src="https://www.dndbeyond.com/attachments/2/768/cos302.jpg"/>
     <p>Upon visiting the church, the party heckled <tg-name name='Donavich'>a terrified priest,</tg-name> broke into the basement, and beheaded <tg-name name='Doru'>a vampire spawn.</tg-name> The vampire spawn was the son of the <tg-name name='Donavich'>priest,</tg-name> whom he kept down there since a failed raid of Castle Ravenloft.</p>
     <p>They buried the Burgomaster behind the church, and they stayed there for the night. The church was accosted by Strahd Zombies in the dark, but the party left safely the next day.</p>
    </div>
    <div content>
     <h2>Tser Pool Encampment</h2>
-    <p>Here, the party approached a camp of Vistani. In a large tent, they found <tg-name>Madam Eva</tg-name>, who read their fortunes with a deck of cards:</p>
+    <p summary>The mysterious <tg-name>Madam Eva</tg-name>, a fortune teller, read the fortunes of the party, giving them leads that would help them defeat Strahd.</p>
+    <p>Here, the party approached a camp of Vistani accompanied by several large horses. In a sizeable tent, they found <tg-name>Madam Eva</tg-name>, who read their fortunes with a deck of cards:</p>
     <p m n>To <tg-name>Sylvenna</tg-name>, she said, "This is a card of power and strength. It tells of a weapon of vengeance: a sword of sunlight. I see a lonely mill on a precipice. The treasure lies within."</p>
     <p m>Status: <span class='green'>Success - The Sunsword was acquired.</p>
     <p m n>To <tg-name>Therin</tg-name>, she said, "This card tells of a powerful force for good and protection, a holy symbol of great hope. There is a town where all is not well. There you will find a house of corruption, and within, a dark room full of still ghosts."</p>
@@ -486,12 +501,13 @@
     <p m n>To <tg-name>Po</tg-name>, she said, "This card tells of history. Knowledge of the ancient will help you better understand your enemy. Look to the west. Find a pool blessed by the light of the white sun."</p>
     <p m>Status: <span class='yellow'>In Progress - Go to Kresk.</span></p>
     <p m n>To <tg-name>Kael</tg-name>, she said, "Your enemy is a creature of darkness, whose powers are beyond mortality. This card will lead you to him! He haunts the tomb of the man he envied above all."</p>
-    <p>Status: <span class='yellow'>In Progress - <tg-name>Strahd's</tg-name> exact location?</span></p>
+    <p>Status: <span class='yellow'>In Progress - Where to find <tg-name>Strahd?</tg-name></span></p>
     <p>After this, the Vistani offered what materials they had in their carts to the party. Most of the carts had nothing, but <tg-name>Po</tg-name> found plenty of gold in the cart he checked.</p>
     <h2>The Old Bonegrinder & The Megaliths</h2>
-    <img class='float-right' style="width: 10em;" src="https://www.dndbeyond.com/attachments/2/775/cos601.jpg"/>
+    <p summary>The party happened upon an old windmill, discovered the disturbing activities of the three women there, and convinced a powerful Night Hag to hand them the legendary Sunsword for free. The party fled the Night Hags and discovered ancient Megaliths around an alter which cuase visions of ancient cities representing the four seasons.</p>
+    <img class='float-right medium' src="https://www.dndbeyond.com/attachments/2/775/cos601.jpg"/>
     <p>The party, on their way to Vallaki, found an old windmill. Upon entering, they found a seemingly nice old lady baking meat pies. They also breifly spied her two unsightly daughters. Discovering that the meat pies were actually Dream Pastries which induce a trance, and finding evidence of disturbing activity within the windmill, the party spoke carefully with the old woman.</p>
-    <img class='float-right' style="width: 6em;" src="https://www.dndbeyond.com/avatars/thumbnails/5738/105/1000/1000/636898360872962338.jpeg"/>
+    <img class='float-right small' src="https://www.dndbeyond.com/avatars/thumbnails/5738/105/1000/1000/636898360872962338.jpeg"/>
     <p>They discovered that this witch-like woman was in posession of the fabled Sunsword -- bane of <tg-name>Strahd.</tg-name> <tg-name>Kael</tg-name> remembered the importance of this weapon, remembering one of the fortunes from <tg-name>Madam Eva</tg-name>. Somehow, through some miracle, the party charmed the woman and simply asked for the sword. She handed it to them, realizing what happened shortly after. This enraged her, and she transformed -- revealing that she was actually a Night Hag.</p>
     <p>The party immediately fled, afraid of the Night Hags within the Old Bonegrinder. Impossibly, they escaped with the Sunsword entirely unharmed.</p>
     As they fled, they came to a set of four megaliths. Different members of the party approached each megalith, receiving visions of faraway cities depicting the four seasons:</p>
@@ -503,27 +519,32 @@
    </div>
    <div content>
     <h2>Vallaki</h2>
-    <img class='float-left' style="width: 15em" src="https://www.dndbeyond.com/attachments/6/303/cos05-02-player.jpg"/>
+    <img class='float-left large' src="https://www.dndbeyond.com/attachments/6/303/cos05-02-player.jpg"/>
     <p>The party approached the City of Vallaki with <tg-name>Ireena.</tg-name> They made it through the tall wooden gates, and they visited The Blue Water Inn. They passed several ravens on the way in. <tg-name>Po</tg-name> tossed a coin to one of them, and they happily took it. <tg-name>Therin</tg-name> attempted interacting with one of the ravens, and they suddenly turned into a human and walked away. This made <tg-name>Therin</tg-name> intensely suspicious of all ravens he saw. During this visit to the inn, they briefly met a man named <tg-name>Rictavio,</tg-name> the leader of a carnival. Since the party suggested that they were against <tg-name>Strahd</tg-name>, he suggested that they meet him at his wagon just down the road, then he left the inn.</p>
     <p><tg-name>Therin</tg-name> saw <tg-name name='Szoldar'></tg-name><tg-name name='Yevgeni'></tg-name> two hunters. He walked up to them to see if they had any useful information, but they weren't particularly talkative until <tg-name>Therin</tg-name> bought them drinks. Even then, they didn't help much. <tg-name>Gregor</tg-name> saw two nobility in the tavern, and he walked up to them. They asked for stories of his escapades -- to which <tg-name>Gregor</tg-name> excitedly recounted some heavily embelished stories from the book he was writing. Through talking with the patrons and owners, the party discovers that the Burgomaster has put on a festival in town.</p>
-    <img class='float-right' style="width: 15em" src="https://www.dndbeyond.com/attachments/1/758/cos05-12.png"/>
+    <img class='float-right large' src="https://www.dndbeyond.com/attachments/1/758/cos05-12.png"/>
     <p>Parting ways with <tg-name>Ireena,</tg-name> the party briefly left the inn to visit with <tg-name>Rictavio</tg-name> before resting for the night.Meeting with <tg-name>Rictavio</tg-name> at his carnival wagon, they heard some unsettling sounds come from the wagon. He ushered them over to inquire about the party's intentions to fight <tg-name>Strahd</tg-name>. He concluded that the party was serious, despite their odd demeanor, and told them that he could be a great help in their fight. Fearing being overheard or spied upon in town, he told the party that they should meet him at his tower northwest of Vallaki. He also claimed to have a saber-tooth tiger, gesturing to his wagon, which he may release in Vallaki. They parted ways and the party returned to the inn to rest for the night.</p>
     <p>In the morning, <tg-name>Therin</tg-name> decided to explore the inn before the party leaves. While the rest of the party enjoyed the inn and some food, <tg-name>Therin</tg-name> proceeded to go into the personal bedroom of the owners of the inn. He thought this to be acceptable. Invading their room, he deftly detected a secret door behind some easily moved furniture and entered it to find that he was in the loft of the attached barn behind the inn. Within, he found a veritable conspiracy of ravens surrounding the edges of this barn's second floor. They all turned their heads to look at him, as if accusing him of being somewhere he shouldn't be. <tg-name>Therin</tg-name> was dumbfounded at the amount of ravens, believing them all to be wereravens like the one he saw in front of the inn. Timidly, he waved and curtly bowed his head in greeting. Talking, as if to himself, he inquired as to the condition of the ravens, their mood, and what they were doing there. The ravens, which could just be ravens, gave no response. <tg-name>Therin,</tg-name> taking a final look around, spies a chest in the corner. Asking to see what's in the chest, again to no response, he reached for it. Upon touching the chest, the ravens all fly at him, infuriated with the invasion. With his quick reflexes, <tg-name>Therin</tg-name> dodges the whirling groups of ravens, even diving through one and grabbing one of the ravens as he escaped.</p>
-    <img class='float-right' style='width: 10em' src="https://www.dndbeyond.com/attachments/1/753/cos05-07.png"/>
+    <img class='float-right medium' src="https://www.dndbeyond.com/attachments/1/753/cos05-07.png"/>
     <p>Immediately running down the stairs, raven in hand, he madly demands an explanation from the innkeepers. Clearly knowing that the ravens where there, the innkeepers, Urwin Martikov and Danika Dorakova, are outraged to see that <tg-name>Therin</tg-name> has captured one and is waving it about. Pulling a weapon from under the bar, Urwin threatened <tg-name>Therin</tg-name> and ordered him to let go of the raven. Surprised by the weapon, <tg-name>Therin</tg-name> let go of the raven, and Urwin shouted for him to get out of their inn. Therin and the party quickly left the inn, and Therin tried to coax the party to the barn in the back to show them the ravens. Cedric followed, and they were quickly driven out by the owners, who were likely checking on the ravens.</p>
     <p><tg-name>Kael</tg-name>, realizing that he must be a better person to attune to the Sunsword, desired to proceed to the town's church. The party proceeded west and came to a procession in the road -- lead by <tg-name>Izek Strazni</tg-name>. The party clearly saw a bystander speak out, saying something about the festival. <tg-name>Izek</tg-name> found this distasteful and ordered guards to chain the commoner -- having him walk behind his horse.<tg-name>Cedric</tg-name> combative as he is, shouted something to taunt <tg-name>Izek</tg-name>. The procession stoped again and <tg-name>Izek</tg-name> inquired who spoke. <tg-name>Cedric</tg-name> pointed sheepishly at <tg-name>Therin</tg-name>, whom <tg-name>Izek</tg-name> immediately had guards chain to his horse. The procession continued, and the party followed.</p>
-    <img style='width: 15em;' class='float-left' src="https://preview.redd.it/bisj5wd6an671.jpg?width=1080&crop=smart&auto=webp&s=d1759dcc96e51edc0cc6dc08a5d71f40ecb43316"/>
+    <img class='float-left large' src="https://preview.redd.it/bisj5wd6an671.jpg?width=1080&crop=smart&auto=webp&s=d1759dcc96e51edc0cc6dc08a5d71f40ecb43316"/>
     <p>Coming to the town square, the party saw, on the far side of the square, stockades filled with men, women, and children. One of the stockades had <tg-name>Therin</tg-name> in it, resigned to an unpleasant fate after his unsettling morning. <tg-name>Gregor</tg-name>, concerned, walked up to a nearby commoner and asked why people were in the stockades. He was met with a smile, and told that the people who were locked up weren't smiling, or were particularly unhappy, during the festival. When inquiring as to the poor condition of the people, they responded saying that those people were left to starve. The uncanny smile of the commoner felt troubling as they spoke. Meanwhile <tg-name>Po,</tg-name> immediately upon entering the square, had headed toward <tg-name>Therin</tg-name> -- intending to pick the lock and save him from the stockades. <tg-name>Gregor</tg-name> looked up and saw <tg-name>Po</tg-name> gesture, as if in need of a distraction. <tg-name>Gregor,</tg-name> being a practiced noble bard, immediately took to the stage set up just behind the stockades. He began rambling about prophecies and such, luring the guards and commonors to look away from Therin. At that moment, <tg-name>Rictavio's</tg-name> tiger appeared behind him, and many of the guards decided to pursue it. Gregor called out, deceiving them, saying that he believed the owner of the tiger to be north of there. Several of the guards went in the direction he indicated. With the guards thinned, <tg-name>Po</tg-name> sneaked over to <tg-name>Therin</tg-name> and easily picked the lock, guiding Therin to the alleyways between the nearby buildings. The party members swiftly moved on to the church.</p>
     <p>With all members safe, <tg-name>Kael</tg-name> went in first, met the priest, and asked him how to be a better person. The priest said something generic about not doing bad things, and <tg-name>Kael</tg-name> found it to be quite profound. The priest then expressed that a good person might help him with his current issue, then proceeded to tell <tg-name>Kael</tg-name> that the bones of the patron saint of the church and town have vanished. The priest found this particularly concerning, as the bones protect the town from <tg-name>Strahd</tg-name>. He explained that the bones must be found before the height of the festival tomorrow. <tg-name>Kael</tg-name> made it his personal mission to find the bones, and asked the priest where to start. He said that the boy who helps maintain the grounds, <tg-name>Milivoj,</tg-name> may know something.</p>
     <p>Leaving the church, <tg-name>Kael</tg-name> told the party about the bones and <tg-name>Milivoj</tg-name>. <tg-name>Kael,</tg-name> <tg-name>Cedric,</tg-name> and <tg-name>Po</tg-name> saw <tg-name>Milivoj</tg-name> nearby and decided to speak with him. <tg-name>Milivoj</tg-name> made fun of the three of them to the moon and back, only to finally tell them that the bones may be at the Coffin Maker's place after <tg-name>Cedric</tg-name> gave in and bribed him. The party did nothing with this information for the rest of the day.</p>
     <p>As they set about the town, the party noticed a man in the shadows following them. After some time, they confronted the stranger. He said that he checks on newcomers to town to see if they're dangerous, then swiftly left. At this point, the party's curiosity about the Burgomaster lead them to visit his mansion.</p>
-    <img class='float-right' style='width: 10em' src="https://www.dndbeyond.com/attachments/2/771/cos502.jpg"/>
+    <img class='float-right medium' src="https://www.dndbeyond.com/attachments/2/771/cos502.jpg"/>
     <p>Arriving at the mansion, they were met by <tg-name>Izek,</tg-name> the personal guard of the Burgomaster, <tg-name>Baron Vargas Vallakovich.</tg-name> <tg-name>Izek</tg-name> had two mastiffs flanking him. He inquired about their business there, and <tg-name>Gregor,</tg-name> being a nobleman, claimed that he desired an audience with the Baron to see what the party could do to assist him in town and with the festival. <tg-name>Izek</tg-name> believed him, telling him to come in alone. <tg-name>Gregor</tg-name> requested that he be allowed to take one person with him. <tg-name>Izek</tg-name> agreed, and <tg-name>Gregor</tg-name> and <tg-name>Po</tg-name> enter and are lead to the Baron. In the meantime, <tg-name>Therin</tg-name> hid in a bush, and the rest of the party sneaked around the building to infiltrate and explore the mansion.</p>
-    <p>Upon meeting the Baron, he seemed competent but deluded. He told <tg-name>Gregor</tg-name> that the party could help him investigate the Wachter family -- a prominent family vying for control over Vallaki. They didn't get much more information out of him, so they agreed to look into the Wachters and left the mansion.</p>
+    <p>Upon meeting the Baron, he seemed competent but deluded. He told <tg-name>Gregor</tg-name> that the party could help him investigate the Wachter family -- a prominent family vying for control over Vallaki. They didn't get much more information out of him, so they agreed to look into the Wachters and left the mansion. On their way out, they grabbed <tg-name>Therin</tg-name> from the bush. He was mumbling something about seeing an Allosaurus appear -- his life flashing before his eyes. He must have been hallucinating.</p>
     <p>Shortly after leaving, the party was met once again by their shadow. He introduced himself as <tg-name>Ernst Larnak,</tg-name> and he informed the party that his master, <tg-name>Lady Wachter,</tg-name> has invited them to dinner. This seemed quite serendipitous, so they proceeded to the Wachterhaus.</p>
-    <img class='float-left' style='width: 10em' src="https://www.dndbeyond.com/attachments/2/772/cos503.jpg"/>
-    <img class='float-right' style='width: 5em' src="https://www.dndbeyond.com/attachments/1/757/cos05-11.png"/>
-    <p>Finding the Wachterhaus, they were ushered in and lead to a dining room. There, they were greeted by <tg-name>Lady Fiona Wachter.</tg-name></p>
+    <img class='float-left medium' src="https://www.dndbeyond.com/attachments/2/772/cos503.jpg"/>
+    <img class='float-right small' src="https://www.dndbeyond.com/attachments/1/757/cos05-11.png"/>
+    <p>Finding the Wachterhaus, they were ushered in and lead to a dining room. There, they were greeted by <tg-name>Lady Fiona Wachter.</tg-name> During the meal, she found them exotic, unique, and she invited them to be her allies. They inquired as to her goals if she were to be the leader, and she gave some questionable, slightly nefarious response. They asked for a private room to discuss this -- to which <tg-name name='Fiona'>Lady Wachter</tg-name> cordially had her waiting staff direct the party to a private joining room.</p>
+    <p>The party, now alone in the house, felt conflicted. They knew that the Burgomaster was detrimental to the town, but they had heard that the Wachters were considered morally questionable. Hoping for more time to investigate, they left the room and asked if <tg-name name='Fiona'>the Lady</tg-name> had some lodging for them, as they were tired travellers. Desiring strong allies, <tg-name>Fiona</tg-name> agreed, leaving her maids to usher the party upstairs.</p>
+    <p>Nearly settled for the night, a few members of the party separately decided to quietly explore. <tg-name>Sylvenna</tg-name> and <tg-name>Po</tg-name> spot each other peeking out of their doorways, and decided to investigate a nearby room together. Peering through the doorway, they see a library, and they were surprised to find it filled with cats! <tg-name>Po</tg-name> was suspicious of them, remembering the wereraven <tg-name>Therin</tg-name> saw that morning. However, investigating further, he concluded that they were simply cats and successfully pets one. <tg-name>Sylvenna</tg-name> seemed thrilled, and remembered this room for later. In the closet, or storeroom, they found a locked chest. <tg-name>Sylvenna</tg-name> asked if <tg-name>Po</tg-name> could pick the lock. He seemed confident and successfully opened the chest, but a tranquilizing dart shot from the chest, rendering him unconscious. In a panic, <tg-name>Sylvenna</tg-name> breifly looked at <tg-name>Po's</tg-name> condition, glanced through the chest, -- finding little of use to her, -- then, with great effort, dragged the lumbering 6'6", 221 lb. <tg-name>Po</tg-name> out of the library, back to the room, and strained to lift and flop him on the bed.</p>
+    <p>Meanwhile, <tg-name>Gregor</tg-name> and <tg-name>Kael</tg-name> explored the main floor, finding common noble furnishings and rooms. They also went upstairs, finding <tg-name>Cedric</tg-name> casually wandering, and discovered <tg-name name='Fiona'>Lady Wachter's</tg-name> room. Thankfully, she was nowhere to be found, but they found a horrid sight within. In the bed, they found a carefully preserved corpse. Disturbed by the sight, they left the room -- closing the door behind them. <tg-name>Sylvenna</tg-name>, leaning out of a doorway, waved to them to come over -- looking worried. Entering the room, <tg-name>Gregor</tg-name> was shaken to see his friend, <tg-name>Po,</tg-name> unconscious -- hearing that he was hit by a poison dart. Tears in his eyes, the room blurring around him, he fully believed the <tg-name>Po</tg-name> has died. He laments his death -- calling out for answers. As this occurs, <tg-name>Po's</tg-name> shirt drenched with tears, he could clearly be seen breathing. <tg-name>Sylvenna</tg-name> and <tg-name>Kael</tg-name> attempted to convince him that <tg-name>Po</tg-name> was clearly alive, believing his condition stable. <tg-name>Therin</tg-name> even cast a healing spell on him. <tg-name>Gregor</tg-name> couldn't be reached, and stayed like that for some time.</p>
+    <p>In the morning, <tg-name>Po</tg-name> unconscious, <tg-name>Gregor</tg-name> convinced, and the party rested, they found the house generally empty. <tg-name>Cedric</tg-name> and <tg-name>Therin</tg-name> led the way to the basement through a hidden door they discovered. In the firelit room, they found several re-animated dead on a sandy floor. They also caught <tg-name>Lady Fiona Wachter</tg-name> and several cultists performing a ritual which would, supposedly, summon a demon to the realm. Taking swift action, they quickly murder <tg-name name='Fiona'>the noblewoman</tg-name>, her sons, and the cultists. They also caught <tg-name>Ernst Larnak</tg-name>, the spy, attempting to flee, and made quick work of him. Waking up, <tg-name>Po</tg-name> met the rest of the party down the stairs in the entryway. Understandably confused at the scene before him, the party walked him down the stairs and showed him the additional macabre scene in the basement -- explaining that <tg-name name='Fiona'>Lady Wachter</tg-name> was part, or even leader, of a cult trying to summon a great evil. <tg-name>Po</tg-name> couldn't really be bothered by the scene, and he accepted the explanation. The party left the grim scene of the Wachterhaus to report their "findings" to the Burgomaster.</p>
+    <p>On their way to the mansion, they ran into <tg-name>Ireena</tg-name> again. <tg-name>Po</tg-name>, still slightly drugged, and trusting <tg-name>Ireena,</tg-name> mumbled something about the missing bones. A flash of concern flew through her eyes, but she believed she misheard him -- attributing it to the strangeness of the party. She then decided to join them in the mansion to keep an eye on them and look into the Baron.</p>
    </div>
    <div content>
     <h2>Castle Ravenloft</h2>
