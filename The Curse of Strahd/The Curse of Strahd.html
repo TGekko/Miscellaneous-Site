@@ -7,15 +7,21 @@
    let e = (query) => Array.from(document.querySelectorAll(query));
    e.create = (tag, ns) => ns ? document.createElementNS(ns, tag) : document.createElement(tag);
 
-   function display(element, style, dstyle) {
+   function display(element, modify, style) {
     element = element.cloneNode(true);
     let item = e.create('div');
     let close = e.create('button');
-    element.style+= style;
+    if(Array.isArray(modify)) {
+     let act = [modify.slice(0, -2).reduce((object, key) => object?.[key], element), ...modify.slice(-2)];
+     if(typeof act[0][act[1]] == 'function') {
+      if(Array.isArray(act[2])) act[0][act[1]](...act[2]);
+      else act[0][act[1]](act[2]);
+     } else act[0][act[1]]+= act[2];
+    } else element.style+= modify;
     element.classList.remove('float-left', 'float-right', 'full', 'x-large', 'large', 'medium', 'small');
     if(element.hasAttribute('src')) element.addEventListener('click', () => window.open(element.getAttribute('src'), '_blank'));
     item.classList.add('display');
-    item.style = dstyle;
+    item.style = style;
     close.classList.add('display-close');
     close.addEventListener('click', () => item.remove());
     item.append(close, element);
@@ -87,7 +93,7 @@
     customElements.define('tg-line', TGLineElement);
     customElements.define('tg-name', TGNameElement);
     for(let img of e('img, [display]')) img.addEventListener('click', function() {
-     display(this, this.getAttribute('display') || `width: min(auto, 100%); height: min(auto, 100%);`, `display: flex; justify-content: center;`);
+     display(this, this.getAttribute('display') || ['classList', 'add', 'display-img'], `display: flex; justify-content: center;`);
     });
     for(let content of e('.data [content]')) {
      let div = e.create('div'),
@@ -117,11 +123,12 @@
     font-size: 1.5em;
     gap: 1em;
     margin: 0;
+    min-width: 25em;
     width: 100%;
     min-height: 100%;
     background: var(--bg);
     font-family: serif;
-    overflow-x: hidden;
+    overflow-x: visible;
    }
    a, a:visited {
     color: black;
@@ -167,12 +174,6 @@
     border-radius: 12.5%;
     box-shadow: -1px 2px 4px black;
    }
-   .Cedric { background-image: url("assets/Cedric.jpg"); }
-   .Kael { background-image: url("assets/Kael.jpg"); }
-   .Quinn { background-image: url("assets/Quinn.jpg"); }
-   .Gregor { background-image: url("assets/Gregor.jpg"); }
-   .Sylvenna { background-image: url("assets/Sylvenna.jpg"); }
-   .Therin { background-image: url("assets/Therin.jpg"); }
    .character {
     display: flex;
     > tg-name > img {
@@ -204,7 +205,9 @@
    .contents {
     position: sticky;
     top: 0em;
-    width: max(min(calc(100% - 40em), 15em), 10em);
+    min-width: 10em;
+    width: calc(100% - 40em);
+    max-width: 15em;
     height: 100vh;
     padding: 0.5em;
     overflow: auto;
@@ -268,6 +271,17 @@
     opacity: 0;
     pointer-events: none;
     overflow: hidden;
+   }
+   .display-img {
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+   }
+   @media(orientation: landscape) {
+    .display-img { width: auto; height: 100%; }
+   }
+   @media(orientation: portrait) {
+    .display-img { width: 100%; height: auto; }
    }
   </style>
  </head>
@@ -459,7 +473,7 @@
    </div>
    <div content>
     <h2>The Village of Barovia</h2>
-    <p summary>The party met <tg-name>Flippelbottom Tillywix</tg-name> and were chased by deadly fog. They got trapped in the "Murder House", and <tg-name>Sylvenna</tg-name> secretly murdered <tg-name>Flippelbottom</tg-name> to save the party. <tg-name>Strahd</tg-name> taunted them as they struggled. They met <tg-name>Ireena Kolyana</tg-name>, whom <tg-name>Strahd</tg-name> is interested in, and harassed a priest in the church -- killing his son.</p>
+    <p summary>The party met <tg-name>Flippelbottom Tillywix</tg-name> and were chased by deadly fog. They got trapped in the "Murder House", and <tg-name>Sylvenna</tg-name> secretly murdered <tg-name>Flippelbottom</tg-name> to save the party. <tg-name>Strahd</tg-name> taunted them as they struggled. They met <tg-name>Ireena Kolyana</tg-name>, whom <tg-name>Strahd</tg-name> is interested in, and the party harassed a priest in the church -- killing his son.</p>
     <img class='float-left medium' src="https://www.dndbeyond.com/attachments/2/767/cos301.jpg"/>
     <p>Along the road to a nearby village, the party met two people, one of which, Flippelbottom Tillywix, joined them on their journey. <tg-name>Po</tg-name> -- Quinn before he regained his memories -- tried to pick the pocket of the other man. The man intercepted the attempt and laughed before walking away.</p>
     <p>The party entered the Village of Barovia, chased by a destructive fog which tears at those who enter it.</p>
@@ -477,8 +491,8 @@
     <p>The party also found the ghosts of two children. The ghost of a young boy posessed <tg-name>Therin</tg-name> temporarily, altering his personality.</p>
     <p>The party discovered a hidden staircase which led to an underground dungeon. <tg-name>Kael</tg-name> managed to trigger every trap and ambush within, while <tg-name>Therin</tg-name> enjoyed finding some gold and minor treasures.</p>
     <p>Descending farther, they found a room leading to a flooded altar. The room contained some alcoves filled with cult-ish objects, and the altar rested behind an iron gate.</p>
-    <p>The party found a way to the altar and, as they entered, they were met with the ghosts of cultists. These cultists demanded a sacrifice. Initially, the party refused to kill anybody. The cultists, displeased, summoned a Shambling Mound which pursued the party as they follow <tg-name>Gregor</tg-name> throughout the house in a panic. They would have run, but <tg-name>Gregor</tg-name> blocked everybody's path the whole way through.<br><br>
-    Believing the house to still be filled with fog, the party felt trapped. Eventually, while evading the Shambling Mound, <tg-name>Sylvenna</tg-name> whisked Flippelbottom back down to the alter, called him a hero, then mercilessly runs him through. This appeased the cultists. <tg-name>Strahd</tg-name>, amused, seemed to appear in the room for a moment, laughing. <tg-name>Therin</tg-name> took Flippelbottom's clothing -- somehow wearing it well even though Flippelbottom was half of <tg-name>Therin's</tg-name> height.</p>
+    <p>The party found a way to the altar and, as they entered, they were met with the ghosts of cultists. These cultists demanded a sacrifice. Initially, the party refused to kill anybody. The cultists, displeased, summoned a Shambling Mound which pursued the party as they follow <tg-name>Gregor</tg-name> throughout the house in a panic. They would have run, but <tg-name>Gregor</tg-name> blocked everybody's path the whole way through.</p>
+    <p>Believing the house to still be filled with fog, the party felt trapped. Eventually, while evading the Shambling Mound, <tg-name>Sylvenna</tg-name> whisked Flippelbottom back down to the alter, called him a hero, then mercilessly runs him through. This appeased the cultists. <tg-name>Strahd</tg-name>, amused, seemed to appear in the room for a moment, laughing. <tg-name>Therin</tg-name> took Flippelbottom's clothing -- somehow wearing it well even though Flippelbottom was half of <tg-name>Therin's</tg-name> height.</p>
     <p>With the cultists' ghosts satisfied with Flippelbottom dead and the Shambling Mound gone, the party took Flippelbottom's body with them as they left the house. Finding a nearby tavern to rest in, they unceremoniously plopped Flippelbottom's body in a nearby cart -- likely owned by people called the Vistani. In the tavern, <tg-name>Sylvenna</tg-name> spoke with some Vistani. They gave her a map of Barovia and told her to visit a woman named <tg-name>Madam Eva</tg-name> at the Tser Pools Encampment. They slept haphazardly in the tavern.</p>
     <p>In the morning, the cart in which they stowed Flippelbottom was gone. They ignored this and moved on to the house of the Burgomaster, who supposedly sent them the letter that brought them there, at the request of his son, <tg-name>Ismark,</tg-name> who was in the tavern. The party showed <tg-name>Ismark</tg-name> the letter they received from his father. <tg-name>Ismark</tg-name> confirms that the letter could not have been written by his father, who was recently deceased, as the handwriting and signature did not match that of his father.</p>
     <img class='float-right medium' src="https://www.dndbeyond.com/attachments/1/721/cos03-05.png"/>
@@ -547,6 +561,7 @@
     <p>In the morning, <tg-name>Po</tg-name> unconscious, <tg-name>Gregor</tg-name> convinced, and the party rested, they found the house generally empty. <tg-name>Cedric</tg-name> and <tg-name>Therin</tg-name> led the way to the basement through a hidden door they discovered. In the firelit room, they found several re-animated dead on a sandy floor. They also caught <tg-name>Lady Fiona Wachter</tg-name> and several cultists performing a ritual which would, supposedly, summon a demon to the realm. Taking swift action, they quickly murder <tg-name name='Fiona'>the noblewoman</tg-name>, her sons, and the cultists. They also caught <tg-name>Ernst Larnak</tg-name>, the spy, attempting to flee, and made quick work of him. Waking up, <tg-name>Po</tg-name> met the rest of the party down the stairs in the entryway. Understandably confused at the scene before him, the party walked him down the stairs and showed him the additional macabre scene in the basement -- explaining that <tg-name name='Fiona'>Lady Wachter</tg-name> was part, or even leader, of a cult trying to summon a great evil. <tg-name>Po</tg-name> couldn't really be bothered by the scene, and he accepted the explanation. The party left the grim scene of the Wachterhaus to report their "findings" to the Burgomaster.</p>
     <p>On their way to the mansion, they ran into <tg-name>Ireena</tg-name> again. <tg-name>Po</tg-name>, still slightly drugged, and trusting <tg-name>Ireena,</tg-name> mumbled something about the missing bones. A flash of concern flew through her eyes, but she believed she misheard him -- attributing it to the strangeness of the party. She then parted ways with them to talk more with the townspeople.</p>
     <p>Once again coming to the front of the mansion, all except <tg-name>Gregor</tg-name> decided to sneak around the sides of the house to find a different way in. <tg-name>Gregor</tg-name> entered and was ushered to the Burgomaster by some of the mansion's staff. <tg-name>Cedric</tg-name> decided to look candidly in a window, making a terrifying face and frightening <tg-name>The Baroness, Lydia Petrovna</tg-name>. Considering the big red rubber glove he was wearing, it was a concerning sight indeed. He was quickly pulled away from the window by <tg-name>Therin</tg-name>.</p>
+    <p><tg-name></tg-name></p>
    </div>
    <div content>
     <h2>Castle Ravenloft</h2>
